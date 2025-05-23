@@ -1,0 +1,15 @@
+{
+  "name": "manus",
+  "version": "1.0.0",
+  "description": "- 我们目前处于AIGC的时代，如LLM deepseek等，主要主要是代码生成、方案生成、建议等\r - Manus——下一代AI总管产品\r  - 假设你是一个hr，面对一堆的简历，你该如何使用AI来筛选，请设计一个程序来自动筛选\r   - 首先将简历放入一个文件夹中\r   - 使用AI 工具读取读取文件夹中的所有文件（操作电脑）\r   - AI 通过prompt中的要求，为每一个简历打分，筛选出符合要求的简历\r   - 把这符合要求的简历对应的名字、电话、得分 计入到excel表格中（按得分排序）。\r   - 给前10%的简历发送邮件，告知他们通过了筛选-",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "openai": "^4.98.0"
+  }
+}

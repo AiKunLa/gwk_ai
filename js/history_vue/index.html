@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>friend</title>
+</head>
+<body>
+    <script>
+        const friend = [ // 采用const声明的变量事实上是对于的内存地址不会改变。
+            {
+                name:'XiaoTianTian',
+                homeTown:'盘丝洞',
+            },
+        ]
+        // friend = [{name:'XiaoTianTian',homeTown:'盘丝洞',}] // 报错，因为const声明的变量事实上是对于的内存地址不会改变。
+        const newFirend = friend // newFirend和friend指向的是同一个内存地址。 引用式赋值
+        console.log(friend)
+        newFirend.push({name:'newFirend',homeTown:'pp',}) // 因为newFirend和friend指向的是同一个内存地址，所以newFirend也会改变。
+        console.log(friend)
+        
+        // 数组模拟栈和队列
+        newFirend.unshift({
+            name:'xx',
+            homeTown:'yy',
+        })
+
+        let friend1 = newFirend.pop() // 队列在对头出队 并把出队的元素返沪
+
+        newFirend.shift() // 栈在队尾出栈并返回出栈的元素
+
+    </script>
+</body>
+</html>

@@ -17,10 +17,11 @@ git -v 查看版本号
 git config --global user.name "AiKunLa" // 配置用户名
 git config --global user.eamil "" // 配置邮箱
 git init // 初始化仓库
-git add . // 添加文件到暂存区 
-git commit -m "first commit" // 提交到本地仓库
-git remote add origin 仓库地址 // 关联远程仓库
-git push origin main // 推送到远程仓库
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/AiKunLa/gwk_ai.git
+git push -u origin main
 
 /node_modules/ 不提交到仓库中
 .gitignore 忽略文件

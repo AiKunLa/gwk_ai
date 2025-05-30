@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="friend"></ul>
+
+    <script>
+      // 对象数组 数据
+      const friends = [
+        { name: "张三", age: 18, gender: "男" },
+        { name: "李四", age: 19, gender: "男" },
+        { name: "王五", age: 20, gender: "女" },
+      ];
+
+      const ul = document.getElementById("friend");
+      for (let i = 0; i < friends.length; i++) {
+        const friend = friends[i];
+        ul.innerHTML += `<li>${friend.name}---${friend.age}---${friend.gender}</li>`;
+      }
+
+      for (const friend of friends) {
+        ul.innerHTML += `<li>${friend.name}---${friend.age}---${friend.gender}</li>`;
+      }
+      // forEach 的升级版map
+      // 迭代器 每次迭代返回一个值，作为数组的元素
+      document.getElementById("friend").innerHTML = `
+      ${friends
+        .map((item) => `<li>${item.name}---${item.age}---${item.gender}</li>`)
+        .join("")}
+      `;
+      console.log(
+        friends
+          .map((item) => `<li>${item.name}---${item.age}---${item.gender}</li>`)
+          .join("")
+      );
+    </script>
+  </body>
+</html>

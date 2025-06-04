@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>聚焦于业务,而不是底层API</title>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container" id="app">
+      <!-- 挂载点 -->
+      <h1>{{title}}</h1>
+      <table id="friend" class="table table-striped">
+        <!-- thead表格头部 -->
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>家乡</th>
+          </tr>
+        </thead>
+        <!-- tbody表格主体 -->
+        <tbody>
+          <tr v-for="item in friend">
+            <td>{{item.name}}</td>
+            <td>{{item.hometown}}</td>
+          </tr>
+          <!-- <tr>
+          <td></td>
+        </tr> -->
+        </tbody>
+        <!-- tfoot表格底部 -->
+        <tfoot></tfoot>
+      </table>
+    </div>
+    <!-- js放在 页面底部 html与css放在上面是因为 要先看到页面效果 然后再渲染数据. js放在下面不会和css html争抢时间  -->
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/3.2.31/vue.global.min.js"></script>
+    <script>
+      // 做一个App
+      const App = {
+        // 声明数据的业务
+        data() {
+          return {
+            title: "ECUT LP",
+            friend: [
+              { name: "困困", hometown: "京西" },
+              { name: "慢慢", hometown: "京东" },
+              { name: "Mir 川", hometown: "MAGA" },
+            ],
+          };
+        },
+      };
+      // 创建一个应用 挂载到页面上
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原生js</title>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- <style>
+      /* 表格居中 有表格框 表格单元大小适当*/
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 500px;
+        height: 200px;
+      }
+      /* 文字居中 第一列与第二列的宽度为1:2 */
+      table,
+      th,
+      td {
+        font-size: 20px;
+        text-align: center;
+        border: 1px solid #000;
+      }
+    </style> -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- 挂载点 -->
+      <table id="friend" class="table table-striped">
+        <!-- thead表格头部 -->
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>家乡</th>
+          </tr>
+        </thead>
+        <!-- tbody表格主体 -->
+        <tbody>
+          <!-- <tr>
+        <td></td>
+      </tr> -->
+        </tbody>
+        <!-- tfoot表格底部 -->
+        <tfoot></tfoot>
+      </table>
+    </div>
+
+    <script>
+      // friend是数组 对象
+      //DOM 编程 动态页面 即动编程
+      const friend = [
+        { name: "困困", hometown: "京西" },
+        { name: "慢慢", hometown: "京东" },
+      ];
+      // 将friend中的数据动态的添加到页面中
+      // 这里数组会自动调用toString方法 会将数组中的每一项拼接成一个字符串 隐式类型转换
+      document.querySelector("#friend tbody").innerHTML = friend
+        .map((item) => {
+          return `<tr>
+        <td>${item.name}</td>
+        <td>${item.hometown}</td>
+      </tr>`;
+        }) // 若没有使用join 则会返回一个数组,之和会将该数组的每一项拼接成一个字符串(隐公类型转换)
+        .join("");
+    </script>
+  </body>
+</html>

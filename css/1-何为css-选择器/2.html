@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 层叠样式表 -->
+    <!-- /* 如何选择第一二个二不选择第三个 */ -->
+    <style>
+      /* +号为兄弟选择器 */
+      h1 + p {
+        /* 它的作用是匹配 紧接在 <h1> 元素之后的第一个 <p> 兄弟元素 。 */
+        color: red;
+      }
+      /* 方法1 通用兄弟选择器 */
+      h1 ~ p {
+        /* 它的作用是匹配 <h1> 元素之后的所有 <p> 兄弟元素，无论它们之间是否有其他元素。 */
+        color: blue;
+      }
+      /* 方法2  子代选择器*/
+      .container > p {
+        /* 它的作用是匹配 <div> 元素下的所有 <p> 元素，而不管内层的p。 */
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p>这是第0段</p>
+      <h1>标题</h1>
+      <p>这是第一段</p>
+      <p>这是第二段</p>
+      <a href="#">Aikunla</a>
+      <span>这是一个span元素</span>
+      <div class="inner">
+        <p>这是第三段</p>
+      </div>
+    </div>
+  </body>
+</html>

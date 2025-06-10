@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 500px;
+        background-color: #ccc;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #000;
+        /* 圆角 阴影 */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        /* 文本 */
+        text-align: center;
+      }
+      /* 行为伪类 */
+      button:hover {
+        color: red;
+      }
+      p:hover {
+        color: blue;
+        background-color: #fff;
+      }
+      /* 文本选中后的状态 */
+      ::selection {
+        color: red;
+        background-color: yellow;
+      }
+      h1 + p::selection {
+        color: green;
+        background-color: pink;
+      }
+
+      /* 状态伪类 */
+      /* 光标处于里面  可以使用点击或者tap按钮*/
+      input:focus {
+        outline: none;
+        border: 1px solid red;
+      }
+      /* 改变选中后的label状态  */
+      input:checked + label {
+        color: red;
+      }
+      /* :nth-child() 是一个伪类选择器，用于选择元素的特定子元素。 */
+      li:nth-child(odd){
+        background-color: white;
+      }
+      li:nth-child(even){
+        background-color: #000000;
+      }
+
+      /* 结构伪类 */
+      /* 不是最后一个li元素的样式 */
+      li:not(:last-child){
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>伪类选择器</h1>
+      <p>第一段落文字描述</p>
+      <button>啊啊啊啊啊</button>
+      <p>第二段落文字描述</p>
+      <!-- 使用autofocus 自动聚焦 -->
+      <input autofocus type="text" name="" id="" placeholder="请输入" />
+      <input type="checkbox" name="" id="option1" />
+      <label for="option1">选项1</label>
+      <input type="checkbox" name="" id="option2" />
+      <label for="option2">选项2</label>
+      <ul>
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+        <li>列表4</li>
+      </ul>
+    </div>
+  </body>
+</html>

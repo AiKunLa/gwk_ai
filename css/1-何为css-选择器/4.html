@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 在类名为container中选择第2个孩子元素，并且这个html元素必须为p标签 */
+        .container p:nth-child(2) {
+            background-color: red;
+        }
+        
+        #demo p:nth-of-type(3) {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="demo">
+        <h1>nth-child vs nth-of-type</h1>
+        <p>这第是一个段落</p>
+        <div>这是第一个div</div>
+        <p>这是第二个段落</p>
+        <p>这是第三个段落</p>
+        <div>这是第二个div</div>
+    </div>
+</body>
+</html>

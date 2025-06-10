@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- ruleset 规则集 -->
+    <style>
+        /* 声明了3个css rules */
+        /*css rules cascading（层叠） sheet 规则表 */
+        /* 层叠样式表 */
+      p {
+        color: blue;
+      }
+      #main p { 
+        color: green;
+      }
+      /* 后代选择器 */
+      .container p{ 
+        color: red;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container" id="main">
+      <!-- css 层叠特性 -->
+      <p>这是一个段落</p>
+    </div>
+  </body>
+</html>

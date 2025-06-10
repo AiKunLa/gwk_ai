@@ -1,0 +1,28 @@
+.movie img {
+    width: 100%;
+}
+main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* 当元素宽度超出容器宽度时，换行显示 */
+}
+.movie {
+    width: 300px;
+    margin: 1rem;
+    position: relative;
+}
+.overview {
+    background-color: #fff;
+    padding: 2rem; /* rem 相对于根元素的字体大小 */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    min-height: 100%; /* 确保元素高度至少为 100% */;
+    transform: translateY(101%); /* 初始位置在底部 */
+    overflow-y: hidden;
+    transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
+}
+.movie:hover .overview {
+    transform: translateY(0); /* 鼠标悬停时向上移动 */
+}

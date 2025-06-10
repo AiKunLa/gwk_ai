@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .container {
+        /* 格式化上下文 对内管理子元素 direction表示方向（行方向弹性 还是列方向弹性 默认是row） row column  */
+        display: flex;
+        width: 800px;
+        /* 居中对齐 */
+        margin: 0 auto;
+      }
+      .container aside {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        /* flex-grow长大 flex-shrink 收缩 flex-basic 基础值 */
+        flex: 1;
+        background-color: pink;
+      }
+      .container main {
+        flex: 2 1 600px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 前端界面使用块级、行内标签来布局面板，但光有这两种还不够 -->
+    <div class="container">
+      <!-- 为什么使用块级元素而不使用行内元素，因为块级元素可以设置宽高，行内元素不可以设置宽高，同时行内元素只适合做一些文字的展示。 -->
+      <aside>广告菜单
+        
+      </aside>
+      <main>主要内容</main>
+    </div>
+  </body>
+</html>

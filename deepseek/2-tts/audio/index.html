@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music play</title>
+</head>
+<body>
+    <!-- 实现音乐播放 -->
+     
+    <audio src="./sounds/荒 - 潘小明.ogg"></audio>
+    <button id="play">播放</button>
+    <script>
+        const oAudio = document.querySelector('audio')
+        document.getElementById('play').addEventListener('click',()=>{
+            oAudio.play()
+            
+        })
+    </script>
+</body>
+</html>

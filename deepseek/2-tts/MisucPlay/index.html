@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <!-- 挂载点     在 React 应用里，这个 div 通常作为 React 应用的挂载点。React 会把整个应用的组件树渲染到这个 div 元素内部 -->
+    <div id="root"></div>
+    <!-- 实现音乐播放 -->
+
+    <audio src="./public/music/snare.wav"></audio>
+    <button id="play">播放</button>
+    <script>
+      const oAudio = document.querySelector("audio");
+      document.getElementById("play").addEventListener("click", () => {
+        oAudio.play();
+      });
+    </script>
+    <!-- 入口文件 -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -2,10 +2,10 @@ import { useState, useRef } from "react";
 
 export default function MusicPlayer() {
   // 火山引擎TTS配置
-  const TOKEN = "YDgGbGpuwGqjIOOkNdyz0xS9GJ9eTtZp";
-  const APP_ID = "8613094311";
-  const CLUSTRE_ID = "volcano_tts";
-  const SERECT_KEY = "Niw00iviAlZ-CYo0bWROupC13xbCG4-j";
+  const TOKEN = "";
+  const APP_ID = "";
+  const CLUSTRE_ID = "";
+  const SERECT_KEY = "";
 
   const [prompt, setPrompt] = useState("播放音乐");
   const [promptTTs, setPromptTTs] = useState("一刀999");

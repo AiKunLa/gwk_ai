@@ -33,3 +33,8 @@ git reset --hard HEAD^ // 回退到上一个版本
 git reset --hard 版本号 // 回退到指定版本
 git reflog // 查看历史记录
 git checkout -- 文件名 // 撤销修改
+
+
+## gitignore 忽略文件
+- 声明那些文件不需要提交到仓库中 如敏感信息 依赖文件 视频等大文件
+- eg: node_modules/ 不提交到仓库中  因为太大了

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>盒模型</title>
+  <style>
+  /* css reset */
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .box {
+    /*  display 可以去切换盒子的能力
+      box-sizing 可以去设定盒子的
+      计算方案
+      默认值是content-box  wxh 指定的是内容的大小 标准盒模型
+      border-box wxh 包含了border 以内的大小 怪异盒(IE)模型
+    */
+    box-sizing: content-box;
+    width: 200px;
+    height: 200px;
+    background-color: green;
+    margin: 10px;
+    padding: 5px;
+    border: 2px solid yellow;
+  }
+  .flex {
+    display: flex;
+  }
+  main {
+    flex: 1;
+    position: relative;
+  }
+  .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-color: pink;
+    border-radius: 50%; /*脱离了文档流*/
+  }
+  .container {
+    flex: 1;
+    overflow: scroll;
+  }
+  header, footer {
+    height: 44px;
+    background-color: red;
+    /* 水平垂直居中 */
+    display: flex;
+    /* 弹性布局 */
+    /* 水平 */
+    justify-content: center;
+    /* 垂直 */
+    align-items: center;
+  }
+  .more {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: yellow;
+    top: 50%;
+    right: 50%;
+    /* transform: translate(50%,-50%); */
+    margin-top: -25px;
+    margin-right: -25px;
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>盒模型</h1>
+  </header>
+  <div class="container">
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <!-- 为什么盖在上面  -->
+        <!-- 因为绝对定位的元素脱离了文档流  -->
+        <!-- 脱离了文档流  就不占位置  所以下面的元素会盖在上面 -->
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <!-- 使用z-index:999; 设置显示优先级 -->
+        <div class="inner" style="z-index: 999;"></div>
+        <!-- 绝对定位的元素  脱离了文档流  不占位置  所以下面的元素会盖在上面  -->
+        <div style="position: absolute;width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+    <div class="row flex">
+      <aside class="box"></aside>
+      <main class="box">
+        <div class="inner"></div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+        <div style="width:100px;height:100px;background:black;">1+2+3</div>
+      </main>
+      <aside class="box"></aside>
+    </div>
+  </div>
+  <footer>
+    <p>盒模型</p>
+  </footer>
+
+  <!-- 为什么会在最上层 -->
+  <!--  -->
+  <div class="more">
+  </div>
+</body>
+</html>

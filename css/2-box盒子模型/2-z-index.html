@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        /* z-index 由index */
+      .box {
+        position: relative;
+        z-index: 1;
+      }
+      .box1,
+      .box2 {
+        width: 100px;
+        height: 100px;
+      }
+      .box1 {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: red;
+        z-index: 99999;
+      }
+      .box2 {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: blue;
+        z-index: 3;
+      }
+      .box3 {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 30px;
+        left: 50px;
+        background-color: green;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="box1">1</div>
+      <div class="box2">2</div>
+    </div>
+    <div class="box3">3</div>
+  </body>
+</html>

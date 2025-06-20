@@ -1,0 +1,22 @@
+.box2 {
+  position: relative;
+  height: 100px;
+  background-color: rgba(181, 174, 175, 0.571);
+  /* 右对齐居中 行高=盒子高度 */
+  color: white;
+}
+.box2::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgb(14, 14, 14);
+  right: 15px;
+  top: 45%;
+  /* 左边框透明 */
+  border-left-color: transparent;
+  /* 下边框透明 */
+  border-bottom-color: transparent;
+  /* 旋转45度 */
+  transform: rotate(45deg);
+}

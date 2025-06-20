@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      p::before {
+        content: "前置内容：";
+        color: red;
+      }
+      p::after {
+        content: " 后置内容";
+        color: blue;
+      }
+      h1::after {
+        content: "";
+        /* 独占一行 */
+        display: block;
+        height: 1px;
+        background-color: gray;
+      }
+      .decorated-link {
+        color: #007bff;
+        text-decoration: none;
+        position: relative;
+      }
+      .decorated-link::before {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: orange;
+        /* 从右边收回 */
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.3s ease;
+      }
+      .decorated-link:hover::before {
+        /* 从左边发出 */
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>这是一个标题</h1>
+    <p>这是一段文本</p>
+    <a href="#" class="decorated-link">更多的内容</a>
+  </body>
+</html>

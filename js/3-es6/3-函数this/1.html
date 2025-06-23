@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this函数</title>
+  </head>
+  <body>
+    <script>
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      Person.prototype.sayHi = function () {
+        console.log(`Hello, ${this.name}`);
+      };
+
+      let person = new Person("张三", 18);
+      console.log(person.sayHi());
+      console.log(person.__proto__ === Person.prototype);
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        "use strict";
+        // this是函数运行后的this指向，
+        var name = 'apisan';
+        var a = {
+            name: 'zhangsan',
+            age: 18,
+            say: function() { // 匿名函数 将函数赋值给变量，
+                console.log(this.name); // 这里的this指向调用对象  函数可以被赋值给变量。
+            }
+        }
+        a.say(); // 对象的方法调用，this指向对象
+        var b = a.say; // 将函数赋值给变量
+        b(); // 函数的调用，this指向window 结果是apsian
+        
+
+    </script>
+</body>
+</html>

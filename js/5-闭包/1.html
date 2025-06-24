@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var n = 100;
+      let m = 100;
+      var name = "Window Object";
+      var object = {
+        name: "My Object",
+        getName: function () {
+          return this.name;
+        },
+        getName1: function () {
+            var _that = this
+          return function () {
+            return _that.name;
+          };
+        },
+        getName2: function () {
+          return function () {
+            return this.name;
+          };
+        },
+      };
+      console.log(object.getName()); //
+      console.log(object.getName1()()); // 闭包
+      console.log(object.getName2()()); // this指向
+    </script>
+  </body>
+</html>

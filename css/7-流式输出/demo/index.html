@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatBot</title>
+    <style>
+      #output {
+        border: 1px solid #ccc;
+        padding: 10px;
+        height: 300px;
+        width: 500px;
+        /* 超出部分隐藏 */
+        overflow: auto;
+        
+        /* 添加换行控制 */
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>流式输出</h1>
+    <div id="output"></div>
+    <script>
+      // html5 事件流对象  EventSource
+      const source = new EventSource("/get");
+
+      // 监听
+      source.onmessage = function (event) {
+        // console.log(event.data);
+        const message = document.getElementById("output");
+        console.log(event.data)
+        message.innerHTML += event.data;
+      };    
+    </script>
+  </body>
+</html>

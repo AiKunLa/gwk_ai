@@ -23,6 +23,13 @@
 - 将异步任务放入promise中 异步任务执行完后调用resolve()
 - p.then(()=>{console.log("111")}) 即可完成同步执行
 
+- promise 状态
+  - pending 等待状态
+  - fulfilled 成功状态
+  - rejected 失败状态
+- 状态只能改变一次
+
+
 ## 控制执行流程的es6 
 - new Promise() // 控制异步流程
 - ()=>{ // executor 耗时性异步任务

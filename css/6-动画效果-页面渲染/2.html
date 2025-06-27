@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box3 {
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        position: relative;
+        left: 0;
+        top: 0;
+        transition: all 3s;
+      }
+      .box3 .actives {
+        left: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box3"></div>
+    <script>
+      // DOMContentLoaded事件是在HTML 文档的 DOM 树构建完成后立即触发,这时候页面为完成全部渲染
+      // 
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        // html css 下载好了，但是浏览器中的html css渲染没有完成
+        // event loop 事件循环
+        // 虽然时间是0，但是setTimeout是一个宏任务 会等待html 与css渲染完成后执行，渲染优先
+        setTimeout(() => {
+          document.querySelector(".box3").classList.add("actives");
+        }, 0);
+      });
+    </script>
+  </body>
+</html>

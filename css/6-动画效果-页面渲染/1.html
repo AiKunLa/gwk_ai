@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS 动画</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        transition: all 1s;
+      }
+      /* hover */
+      .box:hover {
+        transform: translateX(100px);
+      }
+      .box2 {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        position: relative;
+        left: 0;
+        top: 0;
+      }
+      .box3 {
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        position: relative;
+        left: 0;
+        top: 0;
+        transition: all 3s;
+      }
+      .box3:active {
+        left: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--  transform: translateX(100px); -->
+    <div class="box"></div>
+    <!-- js方法 -->
+    <div class="box2"></div>
+
+    <div class="box3"></div>
+    <script>
+      const b2 = () => {
+        const box2 = document.querySelector(".box2");
+        let left = 0;
+        function move() {
+          left += 1;
+          box2.style.left = left + "px";
+          if (left < 300) {
+            requestAnimationFrame(move);
+          }
+        }
+        move();
+      };
+      const b3 = () => {
+        const box3 = document.querySelector(".box3");
+        let top = 0;
+        let left = 0
+        function move() {
+          top += 1;
+          box3.style.top = top + "px";
+          left += 1;
+          box3.style.left = left + "px";
+          if (top < 300) {
+            requestAnimationFrame(move);
+          }
+        }
+        move();
+      };
+
+      b2()
+      b3()
+    </script>
+  </body>
+</html>

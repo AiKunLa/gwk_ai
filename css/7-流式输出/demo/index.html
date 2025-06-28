@@ -3,36 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatBot</title>
+    <title>流式输出</title>
     <style>
+      #getBut {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
       #output {
-        border: 1px solid #ccc;
-        padding: 10px;
-        height: 300px;
         width: 500px;
-        /* 超出部分隐藏 */
-        overflow: auto;
-        
-        /* 添加换行控制 */
-        white-space: pre-wrap;
-        word-wrap: break-word;
+        height: 400px;
+        border: 1px solid #000;
+        /* 超出内容换行 */
+        word-break: break-all;
       }
     </style>
   </head>
   <body>
     <h1>流式输出</h1>
+    <div>
+      <button id="getBut">开始</button>
+    </div>
     <div id="output"></div>
     <script>
-      // html5 事件流对象  EventSource
-      const source = new EventSource("/get");
+      // 状态控制变量
+      let isStreaming = false;
+      let eventSource = null;
+      // 优化后的控制逻辑
+      document.getElementById("getBut").addEventListener("click", () => {
+        if (!isStreaming) {
+          // 创建新的EventSource实例
+          eventSource = new EventSource("/get");
 
-      // 监听
-      source.onmessage = function (event) {
-        // console.log(event.data);
-        const message = document.getElementById("output");
-        console.log(event.data)
-        message.innerHTML += event.data;
-      };    
+          // 消息接收处理
+          eventSource.onmessage = (event) => {
+            if (isStreaming) {
+              document.getElementById("output").innerHTML += event.data;
+            }
+          };
+
+          // 错误处理
+          eventSource.onerror = () => {
+            eventSource.close();
+            isStreaming = false;
+          };
+
+          isStreaming = true;
+          this.innerHTML = "停止";
+        } else {
+          // 关闭连接
+          eventSource.close();
+          isStreaming = false;
+          this.innerHTML = "开始";
+        }
+      });
     </script>
   </body>
 </html>

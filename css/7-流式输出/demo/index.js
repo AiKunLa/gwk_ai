@@ -47,5 +47,5 @@ app.get("/get", (req, res) => {
     // res.write(`data: ${message}\n\n`);
     let num = Math.floor(Math.random() * 10);
     res.write(`data:${num}\n\n`);
-  },100);
+  },20);
 });

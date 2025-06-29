@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+      }
+      .box {
+        display: flow-root;
+        flex: 1;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .box h2 {
+        color: #333;
+        border-bottom: 2px solid #78e0ef;
+        padding-bottom: 10px;
+      }
+      .box p {
+        color: #666;
+        line-height: 1.6;
+      }
+      :root {
+        --shadow-color: 0deg 0% 50%;
+        --shadow-elevation-medium: 0.3px 1px 1.1px
+            hsl(var(--shadow-color) / 0.34),
+          0.9px 2.7px 3px -1.2px hsl(var(--shadow-color) / 0.34),
+          2.6px 7.9px 8.9px -2.5px hsl(var(--shadow-color) / 0.34);
+      }
+
+      .box {
+        box-shadow: var(--shadow-elevation-medium);
+        transition: box-shadow 0.3s ease;
+      }
+
+      .box:hover {
+        --shadow-elevation-medium: 0.4px 1.1px 1.2px
+            hsl(var(--shadow-color) / 0.36),
+          1.1px 3.3px 3.7px -0.8px hsl(var(--shadow-color) / 0.36),
+          3.3px 9.9px 11.1px -1.7px hsl(var(--shadow-color) / 0.36);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h2>左列标题</h2>
+        <button onclick="addContent()">添加内容</button>
+        <p>左侧内容区域...</p>
+      </div>
+
+      <div class="box">
+        <h2>右列标题</h2>
+        <p>右侧较短内容</p>
+      </div>
+      <div class="box">
+        <h2>右列标题</h2>
+        <p>右侧较短内容</p>
+      </div>
+    </div>
+
+    <script>
+      function addContent() {
+        const columns = document.querySelectorAll(".box")[0];
+        const lorem = "Lorem ipsum dolor sit amet...";
+        columns.innerHTML += `<p>${lorem}</p>`;
+      }
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片懒加载</title>
+    <style>
+      .image-item {
+        width: calc(50% - 20px);
+        margin: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .image-item:hover {
+        transform: scale(1.03);
+      }
+
+      @media (min-width: 768px) {
+        body {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/jpg/34/342e6d84d3b1424aa269bc5d8220c675.jpg?imageMogr2/auto-orient/thumbnail/!282x158r/gravity/Center/crop/282x158/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:leezr5Oh7AdSnSikS7jmqTRxGFE="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/png/86/86073448172846589f214fd520e4f18a.png?imageMogr2/auto-orient/thumbnail/!282x158r/gravity/Center/crop/282x158/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:0vVntY86oWgxtjJ-QiwedknqDiA="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/png/55/5531118edd4545b7966604a893fdd7c7.png?imageMogr2/auto-orient/thumbnail/!282x171r/gravity/Center/crop/282x171/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:u2BfwUrIUtligFUo8UPUBypqN1s="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/prevfiles/b10d1e2242fc406ba65b08a135e8b18e.gif?e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:vZqdOY8JFXsZ76sQAshui6ZDhpk="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/74/74f8cd8708554d0e9ab71c71b3b14994.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:wtb3Pu27kMUMK7prorxWzvgd8jU="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/31/316ad9fe44ea45c582478b078918678a.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:CcIe91CIju_EYiMYFfufRbqFJtM="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/fb/fbbb627555e949a6ad27b8bfebfa8609.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:GlGen_mzpt_DxfO8Qf3yAPHoBK8="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/8b/8b42183abd75447aa362a679cf595c40.gif?imageMogr2/auto-orient/thumbnail/!282x267r/gravity/Center/crop/282x267/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:M0O4jcVObk1vWO_EB8xD_TTSgH0="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/64/64345706cba44ab6b20f2caa8ac37dc5.gif?imageMogr2/auto-orient/thumbnail/!282x270r/gravity/Center/crop/282x270/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:uPgxDnh_9z4xfGx43jjg6FC4T2g="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/0c/0cac7f7739094918906319c92f4dff53.gif?e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:fPfWryNXVzGuK6iVzsmY1FyUF4Q="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/prevfiles/72c43a93f4774aa282f498319238d57f.gif?e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:7KmHt2PWvio2TdeU6MOxPBRcqWE="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/94/94e8d2df020b42599b2127b63396d34b.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:ZlV_UL6m_Vsm6uBK7Q3vRkbFJfA="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/a5/a509abaef2f748edb84c7706550228ea.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:JjMZCnLvdJFTqDDMx-tXmEL9xWc="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/77/776011b381d24e7c946ba3e9f678d675.gif?imageMogr2/auto-orient/thumbnail/!282x262r/gravity/Center/crop/282x262/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:zpy7ogLnkkk0A7SOeiPlvw8UQvg="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/4f/4f0b10c4879042e1b9c2df94e4c85794.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:arp7XjRszPnixnKRcll0O4iVoDY="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/22/228792d3b3714035aecadec072087591.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:WRfJpNoNmlaYge-X-8j1Yk0yuOU="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/d6/d6599c67ed6e49c4ba46f69c3f173065.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:Mq2xYuq7kyAc93gFPkCGnCSU-Zk="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/77/777c664df9c84ccaa1cc9cf9e0c58a45.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:XULj8TOPVW27v6rWxvCnMaJm33Y="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/f9/f95bdd4f03744603919f01c1bb5992af.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:7JC-s9XfX64aN8yMLohwijdPmNM="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/f2/f2d31572f46c41dfb735219b2ba4fa74.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:71CaBtDgbx1tNTMXg-cO1LF_EEg="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/f2/f2df7985c77b47e0b4b2e0d0369cd9b9.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:0yxJGELQKJ6PA3VwIJWyRqwJEuM="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/54/5498c5f559de4b39abe8a143494421cc.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:E0dF_VP4aNojeGyxY4GqTwxo7mU="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/b4/b4cabe761a3c4f5785226d867d276cb0.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:Z3DTwnXCCsakfIwkLvDuqYqnemk="
+    />
+    <img
+      class="image-item"
+      lazyload="true"
+      src="https://s1.aigei.com/src/img/gif/9c/9c62187ed1ee4d269475ab15f67d44eb.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:EQa_9iMkZzpCfsgwXTshompNCMo="
+      data-original="https://s1.aigei.com/src/img/gif/f8/f8ff936c430549489b417b880155fa58.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:HpKwXWkahZBtMd1LoIFrjtYIrRs="
+    />
+
+    <script>
+      // document.documentElemt 表示获取文档根元素 html
+      // 获取视口高度
+      const viewHeight = document.documentElement.clientHeight;
+      // 获取所有的图片
+      const images = document.querySelectorAll(
+        'img[data-original][lazyload="true"]'
+      );
+
+      const lazyLoad = function () {
+        Array.prototype.forEach.call(images, function (item, index) {
+          // 若没有值，直接返回
+          if (item.dataset.original === "") return;
+          // 获取图片距离视窗顶部的距离
+          const rectTop = item.getBoundingClientRect().top;
+
+          // 获取图片距离视窗底部的距离
+          const reactBottom = item.getBoundingClientRect().bottom;
+
+          if (
+            rectTop <= viewHeight &&
+            reactBottom >= 0 &&
+            reactBottom <= viewHeight
+          ) {
+            (function () {
+              //这种设计的核心目的是 避免页面闪烁和破碎图片占位符
+
+              // 预加载 其作用是
+              // 创建一个内存中的图片对象，
+              // 然后 img.src = item.dataset.original 触发图片资源的 后台加载 ，
+              // 此时图片不会显示在页面中，仅在浏览器后台缓存图片数据。
+              let img = new Image();
+              img.src = item.dataset.original;
+
+              // 当临时图片对象 img 触发 onload 事件（表示图片已完全加载完成）
+              img.onload = function () {
+                // 这里再次赋值src 是为了
+                item.src = item.dataset.original;
+                // 垃圾回收
+                item.removeAttribute("data-original");
+                // 移除自定义属性
+                item.removeAttribute("lazyload");
+              };
+            })();
+          }
+        });
+      };
+
+      // 监听滚动事件
+      document.addEventListener("scroll", lazyLoad);
+    </script>
+  </body>
+</html>

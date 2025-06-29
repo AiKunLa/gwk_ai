@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTMLCollection</title>
+  </head>
+  <body>
+    <div class="container">
+      <p class="page">111</p>
+      <p class="page">222</p>
+      <p class="page">333</p>
+    </div>
+    <script>
+      const pNodes = document.getElementsByTagName("page");
+      // 判断pNodes 是什么
+      console.log(Object.prototype.toString.call(pNodes)); //[object NodeList]
+    </script>
+  </body>
+        let str = ''
+      pNodes.forEach((item) => {
+        str += item.textContent + '|'
+      });
+      console.log(str); // 111|222|333|
+</html>

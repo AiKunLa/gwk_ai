@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <p>111</p>
+      <p>222</p>
+      <p>333</p>
+    </div>
+    <script>
+      const pNodes = document.querySelectorAll("p");
+      // 判断pNodes 是什么
+      console.log(Object.prototype.toString.call(pNodes)); //[object NodeList]
+      let str = ''
+      pNodes.forEach((item) => {
+        str += item.textContent + '|'
+      });
+      console.log(str); // 
+    </script>
+  </body>
+</html>

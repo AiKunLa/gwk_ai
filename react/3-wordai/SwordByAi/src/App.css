@@ -1,0 +1,11 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  height: 100vh;
+  /* 使用这个来替代背景图片 linear-gradient 背景颜色渐变*/
+  background: linear-gradient(188deg, #ff8e8e 25%, #ff5252 75%);  
+}

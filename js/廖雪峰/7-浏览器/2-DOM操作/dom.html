@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div id="header">
+            id选择器
+        </div>
+        <div id="header2">
+            css选择器
+        </div>
+        <div id="content">
+            <p>这是一个段落</p>
+        </div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+    <script>
+        // id选择器
+        const header = document.getElementById('header')
+        console.log(header.innerHTML) // id选择器
+
+        // 标签选择
+        const divs = document.getElementsByTagName('div')
+        console.log(Object.prototype.toString.call(divs)) // [object HTMLCollection]
+
+
+        // 类
+        const boxs = document.getElementsByClassName('box')
+        console.log(Object.prototype.toString.call(boxs))
+
+
+        // css 选择
+        const header2 = document.querySelector('#header2')
+        console.log(header2.innerHTML) //css选择器
+
+        const box2 = document.querySelectorAll('div.box')
+        console.log(box2.length) // 3
+
+    </script>
+</body>
+</html>

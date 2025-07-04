@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <h1>Cookie</h1>
+    <div id="id">
+      <section id="loginSection" style="">
+        <form id="loginForm">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="请输入用户名"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="请输入密码"
+            required
+          />
+          <button type="submit">登录</button>
+        </form>
+      </section>
+
+      <section id="welcomeSection">
+        <p>欢迎你，<span id="userDisplay"></span></p>
+        <button id="logoutBtn">Logout</button>
+      </section>
+
+      <button id="loginBtn">Login</button>
+    </div>
+    <script src="./index.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          // 携带cookie
+          const res = await fetch("/check-login", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // 携带cookie
+              Cookie: document.cookie,
+            },
+          });
+          const data = await res.json();
+          if (data.code === 0) {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("welcomeSection").style.display = "block";
+            document.getElementById("userDisplay").textContent = data.data.username;
+          } else {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("welcomeSection").style.display = "none";
+          }
+          console.log(data);
+        } catch (error) {}
+      });
+    </script>
+  </body>
+</html>

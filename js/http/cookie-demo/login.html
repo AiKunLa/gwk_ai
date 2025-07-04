@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 基础样式重置 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .login-container {
+        background-color: white;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .login-title {
+        text-align: center;
+        color: #1a73e8;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.2rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #5f6368;
+        font-weight: 500;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.9rem;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn-login {
+        flex: 2;
+        padding: 0.9rem;
+        background-color: #1a73e8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-login:hover {
+        background-color: #1557b0;
+      }
+
+      .btn-reset {
+        flex: 1;
+        padding: 0.9rem;
+        background-color: #f1f3f4;
+        color: #202124;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-reset:hover {
+        background-color: #e8eaed;
+      }
+
+      .error-message {
+        margin-top: 1rem;
+        color: #d93025;
+        font-size: 0.9rem;
+        text-align: center;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1 class="login-title">用户登录</h1>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="username" class="form-label">用户名</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-input"
+            placeholder="请输入用户名"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">密码</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="请输入密码"
+            required
+          />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-login">登录</button>
+          <button type="reset" class="btn-reset">重置</button>
+        </div>
+        <div id="error-message" class="error-message"></div>
+      </form>
+    </div>
+
+    <script>
+      // 简单的表单提交处理
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const errorElement = document.getElementById("error-message");
+
+          // 这里可以添加实际的登录验证逻辑
+          if (username && password) {
+            errorElement.textContent = "登录中...";
+            errorElement.style.color = "#137333";
+            // 模拟登录请求
+            const res = await fetch("http://localhost:3000/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: username,
+                password: password,
+              }),
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.code === 0) {
+              // 登录成功后，跳转到用户界面
+              window.location.href = "http://localhost:3000/userIndex";
+            }
+          } else {
+            errorElement.textContent = "请输入用户名和密码";
+          }
+        });
+    </script>
+  </body>
+</html>

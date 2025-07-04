@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户信息</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f0f2f5;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f1f3f4;
+      }
+
+      .title {
+        color: #1a73e8;
+        font-size: 1.8rem;
+      }
+
+      .user-card {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #e8f0fe;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3rem;
+        color: #1a73e8;
+      }
+
+      .user-info {
+        flex: 1;
+      }
+
+      .info-item {
+        margin-bottom: 1rem;
+      }
+
+      .info-label {
+        display: inline-block;
+        width: 100px;
+        color: #5f6368;
+        font-weight: 500;
+      }
+
+      .info-value {
+        font-size: 1.1rem;
+        color: #202124;
+      }
+
+      .btn-logout {
+        padding: 0.8rem 1.5rem;
+        background-color: #d93025;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-logout:hover {
+        background-color: #b3211e;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        color: #5f6368;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">用户信息</h1>
+        <button class="btn-logout" id="logoutBtn">退出登录</button>
+      </div>
+
+      <div class="user-card">
+        <div class="avatar">
+          <span id="avatarInitial">A</span>
+        </div>
+        <div class="user-info">
+          <div class="info-item">
+            <span class="info-label">用户ID:</span>
+            <span class="info-value" id="userId">--</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">用户名:</span>
+            <span class="info-value" id="username">--</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">登录状态:</span>
+            <span class="info-value" id="loginStatus">在线</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2023 用户管理系统 - 版权所有</p>
+      </div>
+    </div>
+
+    <script>
+      // 从Cookie中获取用户信息
+      function getCookie(name) {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+          const [cookieName, cookieValue] = cookie.trim().split("=");
+          if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+          }
+        }
+        return null;
+      }
+
+      // 检查用户是否已登录
+      function checkLogin() {
+        const userId = getCookie("userId");
+        if (!userId) {
+          // window.location.href = 'login.html';
+          return false;
+        }
+        return true;
+      }
+
+      // 加载用户信息
+      async function loadUserInfo() {
+        // if (!checkLogin()) return;
+
+        // 在实际应用中，这里应该从服务器获取完整用户信息
+        const res = await fetch("/user", {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await res.json();
+        console.log(data)
+        // 这里为了演示，使用预设数据
+        const userData = {
+          id: getCookie("userId"),
+          username: data.username,
+        };
+        console.log(userData)
+        // 更新页面显示
+        document.getElementById("userId").textContent = userData.id;
+        document.getElementById("username").textContent = userData.username;
+        document.getElementById("avatarInitial").textContent = userData.username
+          .charAt(0)
+          .toUpperCase();
+      }
+
+      // 退出登录
+      async function logout() {
+
+        // // 清除Cookie
+        // document.cookie =
+        //   "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // // 重定向到登录页
+        // window.location.href = "login.html";
+        const res = await fetch('/logout',{
+            method:'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+      }
+
+      // 页面加载完成后执行
+      document.addEventListener("DOMContentLoaded", function () {
+        loadUserInfo();
+        document.getElementById("logoutBtn").addEventListener("click", logout);
+      });
+    </script>
+  </body>
+</html>

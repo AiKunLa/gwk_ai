@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="" alt="" id="preview">
+    <script>
+        // Base64图片数据示例（1x1像素透明PNG）
+        // 修正后的base64数据格式
+        const base64Data = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+        
+        // atob 接收纯base64内容
+        const byteCharacters = atob(base64Data.split(',')[1]); 
+        console.log(byteCharacters) 
+
+        const byteNumbers = new Array(byteCharacters.length);
+        
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'image/png' });
+        
+        // 创建Object URL
+        const objectURL = URL.createObjectURL(blob);
+        
+        // 在页面显示图片
+        document.getElementById('preview').src = objectURL;
+        
+        // 使用后释放资源
+        window.onunload = () => {
+            URL.revokeObjectURL(objectURL);
+        };
+    </script>
+</body>
+</html>

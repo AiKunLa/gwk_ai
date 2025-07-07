@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #parent {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+      }
+      #child {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent">
+      <div id="child"></div>
+    </div>
+    <script>
+      // 事件绑定
+      let parent = document.getElementById("parent");
+      let child = document.getElementById("child");
+      parent.addEventListener("click", function () {
+        console.log("parent click");
+      },true);
+      child.addEventListener("click", function () {
+        console.log("child click");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="">
+      姓名<input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="请输入姓名"
+        required
+      /><br />
+      年龄<input
+        type="text"
+        name="userage"
+        id="userage"
+        placeholder="请输入年龄"
+        required
+      />
+      <input type="submit" value="提交" />
+    </form>
+    <ul id="person-list"></ul>
+    <script>
+        
+      const key = "persons";
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const username = e.target.username.value;
+        const userage = e.target.userage.value;
+        if (!username || !userage) return;
+        const person = {
+          username: username,
+          userage: userage,
+        };
+        let persons = JSON.parse(localStorage.getItem(key)) || [];
+        persons.push(person);
+        localStorage.setItem(key, JSON.stringify(persons));
+        refush();
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        refush();
+      });
+
+      function refush() {
+        const personUl = document.getElementById("person-list");
+        const persons = JSON.parse(localStorage.getItem(key)) || [];
+        if(persons.length === 0){
+          personUl.innerHTML = "暂无数据";
+          return;
+        }
+        personUl.innerHTML = "";
+        persons.forEach((person) => {
+          const li = document.createElement("li");
+          li.innerHTML = `${person.username} ${person.userage}`;
+          personUl.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>

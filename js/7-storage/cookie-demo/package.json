@@ -1,0 +1,12 @@
+{
+  "name": "cookie-demo",
+  "version": "1.0.0",
+  "description": "1. 什么是cookie\r    - cookie是浏览器端的存储技术，用于存储浏览器端的一些数据，一般用于存储用户的一些信息，比如登录信息、购物车信息、浏览记录等",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

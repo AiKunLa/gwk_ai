@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #menu {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <button id="toggleBtn">Toggle Menu</button>
+    <div id="menu">
+      <p>Menu Context</p>
+      <button id="closeInside">Don't closed</button>
+    </div>
+    <script>
+      const toggleBtn = document.getElementById("toggleBtn");
+      const menu = document.getElementById("menu");
+      const closeInside = document.getElementById("closeInside");
+
+      toggleBtn.addEventListener("click", (e) => {
+        // 阻止事件冒泡 防止下面document再次执行
+        e.stopPropagation();
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+      });
+      closeInside.addEventListener("click", (e) => {
+        e.preventDefault();
+        menu.style.display = "none";
+      });
+      document.addEventListener("click", (e) => {
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+        if (e.target === closeInside) {
+          e.stopPropagation();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="myList">
+      <li data-item="1">Item 1</li>
+      <li data-item="2">Item 2</li>
+      <li data-item="3">Item 3</li>
+    </ul>
+    <script>
+      document.getElementById("myList").addEventListener("click", (e) => {
+        e.target.tagName.toLowerCase() === "li" && console.log(e.target.innerHTML);
+        // e.target.dataset.item
+        // 数据属性 dataset
+        console.log(e.target.dataset.item)
+      });
+      // window
+      window.addEventListener('click',(e) => {
+        console.log(e.target.dataset.item);
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .container{
+            width: 500px;
+            height: 250px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="root">
+      <a href="www.baidu.com" id="link">baidu</a>
+    </div>
+    <script>
+      const link = document.getElementById("link");
+      const root = document.getElementById("root");
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e.target.href);
+      });
+      root.addEventListener("click", (e) => {
+        console.log(e.target);
+      });
+    </script>
+  </body>
+</html>

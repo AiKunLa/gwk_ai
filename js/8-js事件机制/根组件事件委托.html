@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .content {
+        display: flex;
+        width: 500px;
+        height: 250px;
+      }
+      .content div {
+        width: 100px;
+        height: 100px;
+        margin-left: 10px;
+        background-color: #ccc;
+      }
+      .content div:hover {
+        background-color: #f00;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="root">
+      <ul id="myList">
+        <li data-item="1">Item 1</li>
+        <li data-item="2">Item 2</li>
+        <li data-item="3">Item 3</li>
+      </ul>
+      <div class="content">
+        <div data-content="1">Content 1</div>
+        <div data-content="2">Content 2</div>
+        <div data-content="3">Content 3</div>
+      </div>
+      <button id="btn">按钮</button>
+    </div>
+    <script>
+      document.querySelector(".root").addEventListener("click", (e) => {
+        if (e.target.tagName.toLowerCase() === "li") {
+          console.log(e.target.dataset.item);
+        }
+        if (e.target.tagName.toLowerCase() === "div") {
+          console.log(e.target.dataset.content);
+        }
+        if (e.target.tagName.toLowerCase() === "button") {
+          const newLi = document.createElement("li");
+          newLi.appendChild(document.createTextNode("item-new"));
+          document.getElementById("myList").appendChild(newLi);
+        }
+      });
+    </script>
+  </body>
+</html>

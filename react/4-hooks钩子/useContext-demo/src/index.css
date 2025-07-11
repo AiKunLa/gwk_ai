@@ -1,0 +1,12 @@
+.dark {
+  width: 100px;
+  height: 100px;
+  background-color: #000;
+  color: #fff;
+}
+.light {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  color: #000;
+}

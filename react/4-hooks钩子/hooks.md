@@ -1,4 +1,9 @@
 # hooks
+use
+函数
+响应式状态和生命周期
+很好用
+
 - useState
     - 函数式编程
     - 函数式一等对象
@@ -96,3 +101,50 @@ jsx函数执行——》组件模板编译——》挂载组件到root——》�
 ## 组件在什么时候请求接口
 - 组件第一时间渲染是最重要的，渲染后使用useEffect去请求结构，这样会避开与组件争抢
 - 
+
+## useContext
+1. 是什么，有什么用
+    在react中，若组件层次太深。那么需要一层层的去传递数据
+    useContext主要用于解决组件间状态共享问题，它可以替代 props 逐层传递，通过 Context.Provider 提供全局状态
+
+2. 怎么用
+    使用useContext创建一个上下文对象，在需要共享状态的组件中使用Context.Provider包裹子组件，子组件可以通过useContext来获取状态
+    
+    1. 创建上下文对象
+        ```js
+        import { createContext } from "react";
+
+        export const ThemeContext = createContext({
+        theme: "light",
+        toggleTheme: () => {},
+        });
+        ```
+    2. 提供上下文值
+        ```js
+        // 提供上下文值
+        <ThemeContext.Provider value="dark">
+            <Child />
+        </ThemeContext.Provider>
+        ```
+    3. 使用上下文对象
+        ```js
+        // Child使用上下文对象
+        import { useContext } from "react";
+        import { ThemeContext } from "./context";
+        const theme = useContext(ThemeContext);
+        ```
+
+    4. 子组件获取上下文值
+        ```js
+        // 子组件获取上下文值
+        const theme = useContext(ThemeContext);
+    
+## useState
+1. 介绍useState
+    useState是react内置的hook，它可以用于在函数组件中添加状态（state）。
+    useState返回一个数组，数组的第一个元素是当前状态的值，第二个元素是一个函数，用于更新状态的值。
+
+2. useState是同步的还是异步的
+    useState是异步更新的，若有多次响应更新，则会统一处理。这样是为了避免多次更新导致的性能问题（重绘重排）
+    JSv8引擎 渲染引擎，每次渲染，v8都需要通知渲染引擎，渲染引擎收到通知后，会重新渲染页面，在这个过程中通信会消耗性能。
+    指是异步，但执行是同步

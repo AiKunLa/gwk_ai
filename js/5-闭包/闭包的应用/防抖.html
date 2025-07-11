@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="test" />
+    <script>
+
+
+      document.getElementById("test").addEventListener("keyup", (e) => {
+        debouncedDoWhat(e.target.value);
+      });
+
+      const debouncedDoWhat = debounce(doWhat, 3000);
+
+      function doWhat(value) {
+        console.log(value);
+      }
+
+      function debounce(fn, delay) {
+        let timer = null;
+        return function (...args) {
+          let that = this;
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(function () {
+            fn.apply(that, args);
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>

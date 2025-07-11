@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const fn = (function () {
+        let count = 0;
+        function getCount() {
+          return count;
+        }
+        function increase() {
+          count++;
+        }
+        function resetCount(value) {
+          count = value;
+        }
+        return {
+          getCount,
+          increase,
+        };
+      })();
+      fn.increase();
+      console.log(fn.getCount());
+      fn.increase();
+      console.log(fn.getCount());
+      fn.increase();
+      console.log(fn.getCount());
+
+      
+    </script>
+  </body>
+</html>

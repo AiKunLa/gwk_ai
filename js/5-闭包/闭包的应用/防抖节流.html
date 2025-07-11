@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="inputA" /><br />
+    <input type="text" id="inputB" />
+    <script>
+      // 在图片懒加载中，scroll + getBoundingClientRect 触发频率太高
+      // 每一次的输入，都会触发，频率很高。若触发的事件是耗时的，如ajax请求，则会导致页面卡顿。
+      // 触发了多次无意义的事件，对于用户来说是没有意义的
+
+      //   document.getElementById("inputA").addEventListener("input", function () {
+      //     ajax(this.value);
+      //   });
+      //   // google suggest
+      //   function ajax(content) {
+      //     console.log("ajax请求内容:" + content);
+      //   }
+
+      //   // 防抖
+      //   const inputB = document.getElementById("inputB");
+      //   inputB.addEventListener("keyup", (e) => {
+      //     debounce(ajax, 1000)(e.target.value);
+      //   });
+
+      // 高阶函数将耗时函数作为自由参数，返回一个新的函数，这个函数会频繁执行
+      //  这是一个通用函数，可以将任何函数进行防抖处理
+      function debounce(fn, delay) {
+        let timer = null;
+        // 这里的fn是一个自由变量
+        return function (...args) {
+          // 这个函数返回给debounceAjax
+          // let that = this;
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            fn.call(this, arguments);
+          }, delay);
+        };
+      }
+
+      const tp = function (val) {
+        console.log(this);
+        this.count += Number(val);
+      };
+
+      let obj = {
+        count: Number(0),
+        inc: debounce(tp, 1000),
+      };
+
+      // 这里的inc是debounce返回的函数，指向obj，
+      obj.inc(1);
+      setTimeout(() => {
+        console.log(obj.count);
+      }, 3000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Book(title,author,year){
+            let _title = title;
+            let _author = author;
+            let _year = year;
+            this.getTitle = function(){
+                return _title;
+            }
+            this.getAuthor = function(){
+                return _author;
+            }
+            this.getYear = function(){
+                return _year;
+            }
+        }
+        const book = new Book("JavaScript","张三",2020);
+        console.log(book.getTitle())
+        book._author = 'safsd'
+        console.log(book._author);
+        console.log(book.getAuthor());
+    </script>
+</body>
+</html>

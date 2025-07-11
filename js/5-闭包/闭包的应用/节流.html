@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="inputC" />
+    <script>
+      let inputC = document.getElementById("inputC");
+      const ajax = function (content) {
+        // 被节流的函数
+        // fetch
+        // XMLHttpRequest
+        console.log("ajax request " + content);
+      };
+
+      function throttle(fn, delay) {
+        let last; // 存储上一次函数成功执行的时间戳
+
+        let deferTimer; // 存储 setTimeout 返回的 ID，用于清除定时器
+
+        return function (...args) {
+          let that = this; // 保存 this 上下文，确保在 setTimeout 中也能正确访问 this
+
+          let now = +new Date(); // 获取当前时间戳（+new Date() 是一种快速获取时间戳的方式）
+
+          // 判断是否在节流周期内
+          if (last && now < last + delay) {
+            clearTimeout(deferTimer); // 如果还在限制时间内，则清除之前的定时器，并重新设置新的定时器
+            deferTimer = setTimeout(function () {
+              // 当定时器触发时，更新 last 时间为当前时间
+              last = now;
+
+              // 执行原始函数，并传递参数
+              fn.apply(that, [...args]);
+            }, delay); // 延迟执行到下一个周期开始
+          } else {
+            // 如果是第一次触发或者不在节流周期内，直接执行函数
+
+            // 更新 last 为当前时间
+            last = now;
+            fn.apply(that, [...args]);// 执行原始函数，并传递参数
+          }
+        };
+      }
+      
+      let throttleAjax = throttle(ajax, 2000);
+      inputC.addEventListener("keyup", function (e) {
+        throttleAjax(e.target.value);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page3</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">首页</a></li>
+             <li><a href="#content">内容页</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+    <div id="container">  
+        <h1>Contact</h1>
+        <p>这是Contact</p>
+    </div>
+    <script>
+        const container = document.getElementById('container')
+        window.addEventListener('hashchange',()=>{
+            console.log('hashChange')
+            const hash = window.location.hash
+            switch (hash) {
+                case '#home':
+                    container.innerHTML = '<h1>Home</h1><p>这是Home</p>'
+                    break;
+                case '#content':
+                    container.innerHTML = '<h1>内容页</h1><p>这是内容页</p>'
+                    break;
+                case '#about':
+                    container.innerHTML = '<h1>About</h1><p>这是About</p>'
+                    break;
+                default:
+                    break;
+            }
+        })
+    </script>
+</body>
+</html>

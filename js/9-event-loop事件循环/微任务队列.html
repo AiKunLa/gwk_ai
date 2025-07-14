@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log('同步开始')
+        queueMicrotask(()=>{// 在渲染之前就可以获取dom的元素，
+            // 会在渲染之前执行，此时DOM更新了但还没有渲染  
+            // 当获取一个元素的高度 如offsetHeight getBoundingClientRect会触发回流，
+
+            // 如果这时候有很多的dom需要修改，这时候可以将其一次性全部交给渲染引擎，渲染一次就可以了，
+            // 然后再渲染之前可以通过微任务队列来获取已经DOM改变的元素的一些属性。这样就不需要在渲染之后通过
+            //offsetHeight或getBoundingClientRect去获取高度而触发回流重绘了
+
+
+
+            console.log('微任务执行')
+        })
+        console.log('同步结束')
+    </script>
+</body>
+</html>

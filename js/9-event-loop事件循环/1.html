@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 脚本执行时间  脚本执行（宏任务）——》先执行同步任务——》然后再执行微任务——》渲染页面——》最后再执行宏任务
+        console.log('1');
+
+        // 宏任务 宏任务队列
+        setTimeout(() => {
+            console.log('2');
+        }, 0);
+        console.log('3');
+
+        // then 微任务 微任务队列
+        Promise.resolve().then(()=>{
+            console.log('4');
+        })
+
+        console.log('5');
+    </script>
+</body>
+</html>

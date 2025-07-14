@@ -3,7 +3,6 @@ import { useTheme } from "@/hooks/useTheme";
 
 export default function Page() {
   const theme = useTheme();
-
   return (
     <>
       {theme}

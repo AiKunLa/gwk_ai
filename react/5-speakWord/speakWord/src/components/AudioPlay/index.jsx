@@ -15,7 +15,6 @@ export default function AudioPlay(props) {
           />
         </div>
       )}
-      {/* {audioUrl && <audio controls src={audioUrl}></audio>} */}
     </div>
   );
 }

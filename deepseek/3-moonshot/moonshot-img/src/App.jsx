@@ -30,10 +30,9 @@ function App() {
       setIsValid(true);
       // 将图片显示到页面上
       // 调用接口
-
-
     };
   };
+
   const update = async () => {
     if(!imgBase64Data) return
     const endpoint = "https://api.moonshot.cn/v1/chat/completions";
@@ -80,6 +79,7 @@ function App() {
     setContent(data.choices[0].message.content)
 
   };
+
   return (
     <>
       <div className="container">

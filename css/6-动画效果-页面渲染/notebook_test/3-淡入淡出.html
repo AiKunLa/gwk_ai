@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淡入淡出演示</title>
+    <style>
+        /* 渐变动画盒子 */
+        .fade-box {
+            width: 200px;                   /* 盒子宽度 */
+            height: 200px;                  /* 盒子高度 */
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);  /* 45度双色渐变 */
+            border-radius: 8px;              /* 圆角半径 */
+            /* 动画配置 */
+            animation: fadeInOut 3s         /* 动画名称|时长 */
+                       ease-in-out          /* 缓动函数：慢快慢 */
+                       infinite;            /* 无限循环 */
+                       
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);  /* x偏移|y偏移|模糊|扩展|颜色 */
+        }
+
+        /* 关键帧动画定义 */
+        @keyframes fadeInOut {
+            /* 起始和结束状态 */
+            0%, 100% { 
+                opacity: 0;                 /* 完全透明 */
+                transform: scale(0.95);     /* 缩放至95%大小 */
+            }
+            /* 中间状态 */
+            50% { 
+                opacity: 1;                 /* 完全不透明 */
+                transform: scale(1);        /* 原始尺寸 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fade-box"></div>
+</body>
+</html>

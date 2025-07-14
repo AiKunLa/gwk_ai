@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./index.css";
+import AudioPlay  from "../AudioPlay";
 
 export default function PictureUpLoad(props) {
-  const { word, sentence, audio, uploadImg } = props;
+  const { word, audioUrl, uploadImg ,originImg} = props;
+
 
   // 图片预览
   const [imgPreview, setImgPrview] = useState(
-    "https://res.bearbobo.com/resource/upload/W44yyxvl/upload-ih56twxirei.png"
+    originImg
   );
 
   // 上传图片数据 并绑定imgPrive
@@ -33,6 +35,7 @@ export default function PictureUpLoad(props) {
     });
 
   };
+  
   return (
     <div className="card">
       <input
@@ -45,6 +48,7 @@ export default function PictureUpLoad(props) {
         <img src={imgPreview} alt="preview" />
       </label>
       <div className="word">{word}</div>
+      <AudioPlay audioUrl={audioUrl} />
     </div>
   );
 }

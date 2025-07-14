@@ -4,7 +4,7 @@
  - 变量的本质是对一块内存地址的引用。
 
  - js里变量的类型由什么决定？
- - js基本数据类型：number、string、boolean、undefined、null、symbol
+ - js基本数据类型：number、string、boolean、undefined、null、symbol、bigInt
   - String ：
   - Number：
   - Boolean：

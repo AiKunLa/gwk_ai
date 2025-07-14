@@ -15,7 +15,8 @@ Math是js中内置的一个对象，提供了一些数学常数和函数。
 - 如何判断NaN：
   - 使用 isNaN() 函数：isNaN() 函数用于检查一个值是否为 NaN。
 
-### 数据类型 js有7种数据类型，分为基本数据类型和引用数据类型。 基本数据类型中有6种：包括：Numeric、String、Boolean、Undefined、Null、Symbol 其中Numeric 又分为Number和BigInt。 引用数据类型：包括：Object、Function、Array。
+### 数据类型 
+js有7种数据类型，分为基本数据类型和引用数据类型。 基本数据类型中有6种：包括：Numeric、String、Boolean、Undefined、Null、Symbol 其中Numeric 又分为Number和BigInt。 引用数据类型：包括：Object、Function、Array。
 ECMA是JavaScript的标准化组织，它定义了JavaScript的标准
 ECMA262 标准 定义了 7 种数据类型：
 
@@ -43,3 +44,27 @@ ECMA262 标准 定义了 7 种数据类型：
 ## Symbol
 es6 新增了一种原始数据类型 Symbol，表示独一无二的值。
 - 1. 为什么需要Symbol：
+## 值传递机制
+```javascript
+// 基本类型拷贝
+let a = 10;
+let b = a;  // 值拷贝（内存地址不同）
+b = 20;
+console.log(a); // 10（原始值不变）
+
+// 引用类型拷贝
+let obj1 = { value: 1 };
+let obj2 = obj1;  // 引用拷贝（共享内存地址）
+obj2.value = 2;
+console.log(obj1.value); // 2（原始对象被修改）
+
+// 深拷贝实现
+let origin = { x: 1, y: { z: 2 } };
+let deepCopy = JSON.parse(JSON.stringify(origin));
+deepCopy.y.z = 3;
+console.log(origin.y.z); // 2（原始对象未受影响）
+```
+关键点：
+- 基本类型：Stack内存直接复制值
+- 引用类型：Heap内存共享指针
+- 深拷贝：通过序列化/反序列化断开引用

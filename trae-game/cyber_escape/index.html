@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神经漫游者：数据囚笼</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div id="game-title">神经漫游者：数据囚笼</div>
+        <div id="game-status">
+            <span>任务：找到并上传3份加密数据碎片</span>
+            <span id="inventory">物品：[]</span>
+        </div>
+        <div id="game-output"></div>
+        <div id="game-input">
+            <input type="text" id="command" placeholder="输入命令...">
+            <button onclick="submitCommand()">执行</button>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>

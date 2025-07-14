@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" placeholder="请输入用户名" />
+    <input type="password" placeholder="请输入密码" />
+    <input type="radio" name="gender" />男
+    <input type="radio" name="gender" />女
+    <input type="checkbox" name="like" /> 喜欢
+
+    <select name="province" id="">
+      <option value="1">北京</option>
+      <option value="2">上海</option>
+      <option value="3">广州</option>
+    </select>
+    <br />
+
+    <input type="date" /><br />
+    <input type="datetime-local" name="" id="" /><br />
+    <input type="color" name="" id="" /><br />
+
+    <!-- HTML -->
+    <form id="login-form" method="post" onsubmit="return checkForm()">
+      <input type="text" id="username" name="username" />
+      <input type="password" id="input-password" />
+      <input type="hidden" id="md5-password" name="password" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      function checkForm() {
+        let input_pwd = document.getElementById("input-password");
+        let md5_pwd = document.getElementById("md5-password");
+        // 把用户输入的明文变为MD5:
+        md5_pwd.value = toMD5(input_pwd.value);
+        // 继续下一步:
+        return true;
+      }
+    </script>
+  </body>
+</html>

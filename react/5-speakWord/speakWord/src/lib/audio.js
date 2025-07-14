@@ -24,6 +24,7 @@ export const generateAudio = async (sentence) => {
   const clusterId = import.meta.env.VITE_AUDIO_CLUSTER_ID;
   const voiceName = import.meta.env.VITE_AUDIO_VOICE_NAME;
 
+  console.log(sentence)
   const endpoint = "/tts/api/v1/tts";
   const headers = {
     "Content-Type": "application/json",

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表情生成器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>表情图标生成器</h1>
+        <div class="result-section">
+        <div class="result-header">
+            <h2>生成结果</h2>
+            <div id="copy-button-container"></div>
+        </div>
+        <div id="debug-panel" class="debug-panel">
+            <div class="debug-header">调试信息 <span id="toggle-debug" style="cursor:pointer;color:blue;">(切换)</span></div>
+            <div id="debug-logs" class="debug-logs"></div>
+        </div>
+        <div id="emojiResult" class="emoji-result"></div>
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>生成中，请稍候...</p>
+        </div>
+    </div>
+
+    <div class="input-section">
+        <textarea
+            id="descriptionInput"
+            placeholder="请输入表情描述（例如：开心的笑脸，戴着眼镜的猫）"
+            rows="3"
+        ></textarea>
+        <button id="generateBtn">生成表情</button>
+    </div>
+        <div class="history-section">
+            <div class="history-header">
+                <h3>历史记录</h3>
+                <button id="clear-history-btn" class="clear-history-btn">清空历史</button>
+            </div>
+            <div id="history-list" class="history-list"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

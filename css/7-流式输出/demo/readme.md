@@ -4,6 +4,7 @@
   npm init -y
 - 安装 express node 后端框架
   npm i express
+  npm i -g nodemon // 热更新
 
 ## 创建 index.js 文件
 
@@ -33,5 +34,14 @@
   });
   ```
 
+- require是什么
+node有两套模块化方案，require 是node早期模块化方案，import是es6的模块化方案
+
+ - 什么是模块化
+
+
+
+
 ## 请求
 - http 足够简单，用户请求完毕后会立即断开，适配高并发访问
+

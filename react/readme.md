@@ -10,10 +10,26 @@ Web应用（www.baidu.com） 移动应用（Android，IOS）  后端 Node（serv
 理清前端发展历程（），对前端开发需要的知识技术有一个整体的了解，并对未来前端发展趋势有一个清晰的认知 。未来AICoding  vibecode 是趋势
 
 ## 搭建
-1. npm init vite 初始化项目 初始化react vue 等项目的模板和工程
+1. npm init vite 初始化项目 初始化react vue 等项目的模板和工程,vite 是工程化的工具，脚手架
 2. 选择 react 或 vue 或其他模板 选择语言
-3. 进入项目目录，安装依赖 npm install
+3. 进入项目目录，安装依赖 npm install, 若慢 则使用镜像  。
+    npm config get registry  // 查看自己的镜像源
+
+    npm install --registry=https://registry.npmmirror.com // 临时单次镜像安装
+    npm config set registry https://registry.npmmirror.com  // 设置镜像源
+
+    npm config set registry https://registry.npmmirror.com // 配置阿里镜像
+
 4. 启动项目 npm run dev
+
+
+5. 在不同项目中重复安装了react
+将react等依赖，放到同一个地方，这样不同项目就可以共享这些依赖，避免重复安装。
+- 使用pnpm 来替代 npm
+    全局安装 npm install -g pnpm
+    pnpm -v
+
+
 
 
 npm install 安装依赖

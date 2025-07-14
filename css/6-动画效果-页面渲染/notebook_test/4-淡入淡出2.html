@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            margin: 100px auto;
+            width: 200px;
+            height: 200px;
+            background: #4a90e2;
+            border-radius: 8px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+  <script>
+    gsap.to('.box', {
+      duration: 3,           // 动画周期3秒
+      yoyo: true,            // 开启往返运动(到达终点后反向播放)
+      repeat: -1,            // 无限循环(-1表示永久重复)
+      ease: "ease-in-out",   // 使用CSS标准缓动曲线
+      opacity: 0,            // 目标透明度(配合yoyo实现0→1→0变化)
+      scale: 0.9             // 缩放比例(配合yoyo实现0.9→1→0.9变化)
+    });
+  </script>
+</body>
+</html>

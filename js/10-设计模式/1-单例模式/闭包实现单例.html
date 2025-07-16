@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function StorageBase() {}
+      StorageBase.prototype.get = function (key) {
+        return localStorage.getItem(key);
+      };
+      StorageBase.prototype.set = function (key, value) {
+        localStorage.setItem(key, value);
+      };
+
+      const Storage = (function () {
+        let instance = null;
+        return function () {
+          if (!instance) {
+            instance = new StorageBase();
+          }
+          return instance;
+        };
+      })();
+
+      // 这里的Storage 是上述立即指向函数返回的函数，当new Storage时由于Storage构造函数有一个返回值，返回的还是对象，所以new Sotrage() 不会返回一个新创建的对象
+      // 实际上返回的是哪个闭包的自由变量
+      const storage = new Storage()
+      const storage2 = new Storage()
+      console.log(storage === storage2)
+
+    </script>
+  </body>
+</html>

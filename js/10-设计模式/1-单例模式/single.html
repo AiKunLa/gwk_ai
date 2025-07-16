@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        /**
+         * Storage 本地存储类
+         * 单例模式，
+         * 基于LocalStorage
+         **/
+
+      class Storage {
+        // 实例属性
+        storage = null;
+        // 静态属性
+        static instance = null;
+
+        // 静态方法
+        static getInstance() {
+          // 静态方法只能访问静态属性
+          // 这里的this 指向类本身，判断是否有实例。
+          if (!this.instance) {
+            this.instance = new Storage();
+          }
+          return this.instance;
+        }
+
+        constructor() {
+          this.storage = window.localStorage;
+        }
+
+        set(key, value) {
+          // 实例方法可以访问实例属性和静态属性
+          this.storage.setItem(key, value);
+        }
+        get(key) {
+          return this.storage.getItem(key);
+        }
+      }
+      // 如何让class 只能new 一次
+      // 1. 构造函数私有化
+      // 2. 提供一个静态方法，用于获取实例
+
+      const storage3 = Storage.getInstance();
+      const storage4 = Storage.getInstance();
+
+      console.log(storage3 === storage4);
+
+      storage3.set("name", "张三");
+      storage4.set("name", "李四");
+    </script>
+  </body>
+</html>

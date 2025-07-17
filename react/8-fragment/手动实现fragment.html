@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container"></div>
+    <ul id="list"></ul>
+    <script>
+      const lists = [
+        {
+          id: 1,
+          title: '111',
+          content: '111111',
+        },
+        {
+          id: 2,
+          title: '222',
+          content: '222222',
+        },
+      ]
+
+
+      const fragment = document.createDocumentFragment()
+      const container = document.getElementById("container");
+
+      lists.forEach((item) => {
+        const div = document.createElement('div')
+        const title = document.createElement('h2')
+        const content = document.createElement('p')
+
+        title.textContent = item.title
+        content.textContent = item.content
+        div.appendChild(title)
+        div.appendChild(content)
+        
+        fragment.appendChild(div)
+      });
+      
+      container.appendChild(fragment)
+    </script>
+  </body>
+</html>

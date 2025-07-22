@@ -8,10 +8,10 @@ function App() {
   const { count } = useCounterStore();
   return (
     <>
-      <h2>{count}</h2>
-      {/* <Counter /> */}
+      <h2>App: {count}</h2>
+      <Counter />
       {/* <Todo /> */}
-      <RepoList />
+      {/* <RepoList /> */}
     </>
   );
 }

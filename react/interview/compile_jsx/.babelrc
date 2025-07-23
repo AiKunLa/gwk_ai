@@ -1,0 +1,6 @@
+{
+    // 编译规则 按照环境对其进行预处理
+    "presets":[
+        "@babel/preset-react"
+    ]
+}

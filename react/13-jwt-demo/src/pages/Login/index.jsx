@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Style from "./index.module.css";
-// import request from '@/utils/request';
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/userStore";
 

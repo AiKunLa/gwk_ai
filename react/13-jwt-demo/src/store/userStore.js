@@ -17,10 +17,11 @@ const useUserStore = create((set) => ({
   login: async (data) => {
     set({ loading: true });
     const res = await login(data);
-
+    // 结构响应的数据
     const { code, msg, data: userData } = res.data;
-    console.log("=========================");
+
     const { token, user } = userData;
+    // 若登录成功则 设置登录成功信息，并存储token到localStorage中
     if (code === 0) {
       set({
         user: user,

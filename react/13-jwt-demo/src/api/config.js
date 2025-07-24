@@ -17,14 +17,6 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 拦截响应，处理token
-// instance.interceptors.response.use((response) => {
-//   const token = response.headers["authorization"].split(" ")[1];
-//   if (token) {
-//     localStorage.setItem("token", token);
-//   }
-//   return response;
-// });
 
 // 导出实例
 export default instance;

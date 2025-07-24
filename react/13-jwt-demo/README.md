@@ -4,6 +4,16 @@
 - 登录成功后，会返回一个token，后续的请求都需要在header中添加token
     curl -X GET -H "Authorization: Bearer <token>" http://localhost:3000/users
 
+- 安装依赖
+    # 安装路由依赖
+    pnpm i react-router-dom 
+    # 安装axios
+    pnpm i axios 
+    # 安装jwt 库
+    pnpm i jsonwebtoken
+    # 安装zustand 状态管理库
+    pnpm i zustand
+
 1. 通过cookie来实现登录授权
     - http请求是无状态的，服务器端无法知道客户端是否登录
         服务端需要在用户登录后，将token保存到cookie中，客户端后续的请求会自动携带cookie，服务端可以通过cookie来判定用是否登录

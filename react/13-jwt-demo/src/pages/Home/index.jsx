@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Style from './index.module.css';
-// import request from '@/utils/request';
 import Loading from '@/components/Loading';
 import NavBar from '@/components/NavBar';
 

@@ -52,7 +52,7 @@
     pnpm i vite-plugin-mock -D 开发阶段
     pnpm i react-router-dom zustand axios react react-dom react-vant
 
-    pnpm i lib-flexible  解决移动端适配
+    pnpm i lib-flexible  解决移动端适配 等分屏幕
     pnpm i -D postcss postcss-pxtorem  解决px 转换为rem
     react-vant 移动端组件库
 
@@ -126,3 +126,21 @@
 5. 修改项目标题
     在index.html中
     <title>稀饭旅游网</title>
+
+## git 提交规范
+- 项目初始化 移动端适配
+
+## 功能模块
+- UI 组件库
+    - react-vant 选择适合业务的组件库
+- 路由模块
+    - 使用Layout组件 嵌套路由Outlet 分组显示
+        Route 不加path对应的路由自动选择
+        导航栏
+            使用react-vant + @react-vant/icons 来实现图标
+            value + onChange 来实现tabbar的切换
+            结合es6 特性 使用findIndex 方法来根据路由路径，设置当前激活的tabbar，当用户从链接直接进入页面时，根据链接路径，激活对应的tabbar
+            
+
+- 自定义hooks
+    - useTitle 用于设置页面标题  接收一个**页面标题参数**

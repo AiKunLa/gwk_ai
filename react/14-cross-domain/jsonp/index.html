@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getJSONP({ url, parms = {}, callback }) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          parms = { ...parms, callback };
+          const arr = [];
+          for (let key in parms) {
+            arr.push(`${key}=${parms[key]}`);
+          }
+          // queryString  ?wd=DPE&callback=show
+          const queryString = arr.join("&");
+
+          script.src = `${url}?${queryString}`;
+
+          // 在全局定义一个函数，由于返回的是 像show('我不爱你')样子的js代码，会立即执行
+          // 所以只要
+          window[callback] = function (data) {
+            // 执行完了，就删除这个函数
+            delete window[callback];
+            // 移除script标签
+            document.body.removeChild(script);
+            resolve(data);
+          };
+
+          document.body.appendChild(script);
+        });
+      }
+      getJSONP({
+        url: "http://localhost:3000/say",
+        parms: {
+          wd: "DPE",
+        },
+        callback: "show",
+      }).then((data) => {
+        console.log(data);
+      });
+    </script>
+  </body>
+</html>

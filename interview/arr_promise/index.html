@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const getReq = (username) => {
+        return new Promise((resolve, reject) => {
+          try {
+            fetch(`api.github.io/users/${username}/repos`).then((res) => {
+              resolve(res.json());
+            });
+          } catch (error) {
+            reject(error);
+          }
+        });
+      };
+      (async () => {
+        const arr = [getReq("LeeAt67"), getReq("AiKunLa")];
+        // 当所有的promise都完成时，当所有promis都成功，返回所有promise的执行结构
+        Promise.all(arr).then((res) => {
+          console.log(res);
+        });
+
+      })();
+    </script>
+  </body>
+</html>

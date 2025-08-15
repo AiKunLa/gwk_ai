@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">1</div>
+    <button id="button" type="button">按钮</button>
+    <button id="loginBtn" type="button">登录</button>
+
+    <script>
+      // 对
+      // 对MVVM的理解
+      var obj = {
+        value: 1, // 这个值是数据、如何让他变为响应式的数据，监听对他的修改
+        isLogin: false,
+      };
+
+      let value = 1;
+      let isLogin = false;
+
+      Object.defineProperty(obj, "value", {
+        // 数据劫持
+        // 访问数据的时候执行
+        get: function () {
+          return value;
+        },
+        // 改变数据的时候执行
+        set: function (newValue) {
+          value = newValue;
+          document.getElementById("container").innerHTML = newValue;
+        },
+      });
+
+      Object.defineProperty(obj, "isLogin", {
+        get: function () {
+          return isLogin;
+        },
+        set: function (newValue) {
+          isLogin = newValue;
+          if (isLogin) {
+            document.getElementById("loginBtn").innerHTML = "退出";
+          } else {
+            document.getElementById("loginBtn").innerHTML = "登录";
+          }
+        },
+      });
+
+      document.getElementById("button").addEventListener("click", () => {
+        obj.value += 1;
+      });
+      document.getElementById("loginBtn").addEventListener("click", () => {
+        obj.isLogin = !obj.isLogin;
+      });
+    </script>
+  </body>
+</html>

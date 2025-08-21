@@ -1,4 +1,6 @@
 # AI方面的面试
+- AI发展
+chatbot -> 推理 -> Agent (coze) -> 创新能力 -> 组织能力
 
 - LLM 调用AIP 有什么缺点
     1. LLM是提前训练好的，它对于新的知识或服务是不了解的，需要对这方面从新训练
@@ -13,6 +15,7 @@
     如何让LLM调用外部的工具
 
 ## Function Call
+    通过调用调用外部工具或API来获取实时信息，执行计算或操作，从而获取最新数据。精确计算与外部系统交互的复杂任务。
     让AIGC 从只会生成文本进化为可靠执行操作，解决了自然语言到结构化调用的鸿沟。是模型能安全、可控地调用外部系统服务，推动实用化落地。
     
     eg：“帮我订明天北京到上海的航班”
@@ -35,3 +38,37 @@
             type、name、parameters
         - 返回结果 function.id
             role:tool
+
+## MCP
+Model Context Protocol 
+    **它是一个协议，类似于web开发的restful协议，是一种如何将外部资源暴露给LLM的协议和风格。**
+    它是Function Call 的升级版本
+    当我们在做各种Function Call 的时候每个服务的接口是不一样的，这样很混乱，但是mcp统一了一切。
+    - MCP是LLM与外界之间的通信协议，就像USB，他能够对LLM训练完后的不了解的知识进行连接
+    LLM他本身不知道怎么调用地图、数据库、搜索引擎，而MCP规定了标准的上下文交换方式，让大模型能像调用API一样去访问这些外部资源。
+
+    就比如，我们要让大模型调用高德地图的API，我们需要先注册高德地图的MCP，然后在MCP中定义一个接口，这个接口的参数就是我们要调用的API的参数，返回结果就是我们要调用的API的返回结果。
+    然后我们在大模型中调用这个接口，就可以调用高德地图的API了。
+    当我们对AI发起一个，请帮我规划公司到机场的路线。模型根据会通过高德地图MCP插件，获取实时路径和交通数据
+- 优点
+让LLM输出更加可靠，降低集成成本。数据更加安全可控，
+
+
+
+
+- 安装mcp 客户端 cline
+- 注册高德地图的mcp
+
+1. demo
+    npm init -y
+    npm i @modelcontextprotocol/sdk
+
+2. MCP Server 是基于mcp协议的服务软件
+    定义tool
+    - mcp client  cline/cursor
+        配置mcp server
+        LLM -》 MCP Client -》 MCP Server，  client 根据对内容的判定 来决定是否使用大模型，它先去问大模型本地是否有MCP Server能够解决用户的需求，
+        如果有，就调用MCP Server，然后获取MCP Server返回的数据，并将其交给LLM，LLM再根据返回的数据，生成最终的结果。
+        如果没有，就调用大模型。
+
+

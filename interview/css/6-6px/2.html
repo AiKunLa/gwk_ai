@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        height: 100px;
+        width: 100px;
+        background-color: green;
+        position: relative;
+      }
+      .box::after {
+        /*  必须要有content */
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: black;
+        /* 使用scale来压缩  以中间为点两边来收缩 */
+        transform: scaleY(0.5);
+        /* 使用transform-origin来控制收缩的原点 ，就是用于控制那边不动*/
+        transform-origin: center bottom;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>

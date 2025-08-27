@@ -72,3 +72,17 @@ Model Context Protocol
         如果没有，就调用大模型。
 
 
+## ollama
+这是一个让你可以通过简单命令在本地轻松下载、运行和管理大语言模型的工具，支持GPU加速和类OPENAI接口，适合本地部署和开发
+
+命令
+    ollama pull deepseek-r1:1.5b 下载大模型
+    ollama run deepseek-r1:1.5b 运行大模型
+
+在11434端口提供api 调用
+
+
+- 免费模型
+    Meta Llama 羊驼
+    deepseek-r1:1.5b  参数的尺寸
+    Qwen

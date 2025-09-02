@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="container"></ul>
+    <script>
+      let now = Date.now();
+      const total = 100000;
+      let ul = document.getElementById("container");
+      for (let i = 0; i < total; i++) {
+        let li = document.createElement("li");
+        li.innerText = Math.random() * total;
+        ul.appendChild(li);
+      }
+      console.log("js 同步", Date.now() - now);
+      // 使用下一次宏任务开始执行时间减去 上一次同步开始的时间
+      // setTimeout 最少要4毫秒，不准
+      setTimeout(() => {
+        console.log("next loop", Date.now() - now);
+      }, 0);
+      
+    </script>
+  </body>
+</html>

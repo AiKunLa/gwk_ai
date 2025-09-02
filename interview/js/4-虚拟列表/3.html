@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="container"></ul>
+    <script>
+      const ul = document.getElementById("container");
+      let total = 100000;
+      let once = 20;
+      function loop(curTotal, curIndex) {
+        if (curTotal <= 0) return false;
+        let countPage = Math.min(curTotal, once);
+        // 在一帧内进行更新
+        requestAnimationFrame(function () {
+          const fragment = document.createDocumentFragment;
+          for (let i = 0; i < countPage; i++) {
+            let li = document.createElement("li");
+            li.innerText = curIndex + i + ":" + Math.random() * total;
+            fragment.appendChild(li);
+          }
+          ul.appendChild(fragment);
+          loop(curTotal - countPage, curIndex + countPage);
+        });
+        // setTimeout(() => {}, 0);
+      }
+      loop(total, 0);
+    </script>
+  </body>
+</html>

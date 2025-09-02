@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- setTimout 会白一下，requestAnimationFrame 更加流畅 
+     requestAnimationFrame 的步伐跟着系统的刷新步伐走，他能保证回调函数在屏幕每一次的
+     刷新时间间隔中执行一次，不会丢帧了
+     -->
+    <ul id="container"></ul>
+    <script>
+      let ul = document.getElementById("container");
+      let total = 100000;
+      let once = 20;
+      let page = total / once;
+      let index = 0;
+      function loop(curTotal, curIndex) {
+        if (curTotal <= 0) {
+          return false;
+        }
+        let pageCount = Math.min(curTotal, once);
+        setTimeout(() => {
+          for (let i = 0; i < pageCount; i++) {
+            let li = document.createElement("li");
+            li.innerText = curIndex + i + ":" + Math.random() * total;
+          }
+        }, 0);
+        loop(curTotal - pageCount, curIndex + pageCount);
+      }
+      loop(total, 0);
+    </script>
+  </body>
+</html>

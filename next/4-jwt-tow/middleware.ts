@@ -43,8 +43,6 @@ export async function middleware(request: NextRequest) {
   // 尝试使用refreshToken刷新访问令牌
   if (refreshToken) {
     const refreshPayload = await verifyToken(refreshToken);
-    
-    console.log("refreshPayload", refreshPayload);
     if (refreshPayload) {
       const refreshUrl = new URL("/api/auth/refresh", request.url);
       refreshUrl.searchParams.set("redirect", request.url);

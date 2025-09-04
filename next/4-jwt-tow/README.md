@@ -53,6 +53,8 @@
         后续页面就可以拿到这个值
 
 
+
+
 ## 配置
 1. 数据库配置
     - .env
@@ -93,3 +95,31 @@
     - 401 Forbidden 权限
     - 409 Conflict 冲突
     - 500 服务器错误
+
+
+## 面试总结
+
+
+
+### token刷新流程
+1. 双令牌设计
+    - 访问令牌(Access Token) ：有效期短（1小时），用于日常API请求验证
+    - 刷新令牌(Refresh Token) ：有效期长（7天），专用于获取新的访问令牌
+2. 完整刷新流程
+    - 检查阶段 使用中间件 middleware。
+    - 在中间件层面
+        若是当前路径是受保护的，那么逻辑如下。
+        - 从cookies中获取accesstoken 和 refreshtoken
+        - 若两个都无效，则转跳到登录页进行登录
+        - 若accesstoken有效，则在请求头中自定义字段,方便后续操作获取用户数据
+            ```js
+                // 设置自定义请求头，存储用户数据
+                const requestHeaders = new Headers(request.headers);
+                requestHeaders.set("x-user-id", accessPayload.userId as string);
+            ```
+        - 若accesstoken无效，refreshtoken有效则重定向到“/api/auth/refresh”，进行tokne刷新
+            ```js
+                const refreshUrl = new URL("/api/auth/refresh", request.url);
+                refreshUrl.searchParams.set("redirect", request.url);
+                return NextResponse.redirect(refreshUrl);
+            ```

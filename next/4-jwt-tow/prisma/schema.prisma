@@ -1,0 +1,36 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+// 这里可以添加您的模型定义
+
+// 创建表，user表 
+model User {
+    id           Int      @id @default(autoincrement()) // @id 表示的是这个字段是主键
+    email        String   @unique // 表示唯一
+    password     String
+    refreshToken String? // 可以为空
+    createdAt    DateTime @default(now())
+    updatedAi    DateTime @updatedAt
+    posts        Post[]
+
+    @@map("user") // 数据库对应的表名
+}
+
+// 文章表
+model Post {
+    id        Int      @id @default(autoincrement())
+    title     String   @db.VarChar(255)
+    content   String   @db.Text
+    publish   Boolean  @default(false) // 是否是草稿
+    author    User     @relation(fields: [authorId], references: [id]) // 外键
+    authorId  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@map("post")
+}

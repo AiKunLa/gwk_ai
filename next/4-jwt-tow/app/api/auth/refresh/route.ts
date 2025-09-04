@@ -1,0 +1,64 @@
+import { NextRequest, NextResponse } from "next/server";
+import { verifyToken, createTokens } from "@/lib/jwt";
+import { prisma } from "@/lib/db";
+
+export async function GET(request: NextRequest) {
+  try {
+    const refreshToken = request.cookies.get("refresh_token")?.value;
+    const redirectUrl =
+      request.nextUrl.searchParams.get("redirect") || "/dashboard";
+    
+    console.log("refreshToken///////////////////")
+
+    if (!refreshToken) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    const refreshPayload = await verifyToken(refreshToken);
+    if (!refreshPayload || !refreshPayload.userId)
+      return NextResponse.redirect(new URL("/login", request.url));
+
+    // 刷新token
+    const userId = refreshPayload.userId as number;
+
+    // 安全问题，需要和数据库中的refreshtoken进行校验
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user || user.refreshToken !== refreshToken)
+      return NextResponse.redirect(new URL("/login", request.url));
+
+    // 刷新token
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      await createTokens(userId);
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refreshToken: newRefreshToken,
+      },
+    });
+
+    const response = NextResponse.redirect(new URL(redirectUrl, request.url));
+
+    response.cookies.set("access_token", newAccessToken, {
+      httpOnly: true,
+      maxAge: 60 * 15,
+      sameSite: "strict",
+      path: "/",
+    });
+    response.cookies.set("refresh_token", newRefreshToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "strict",
+      path: "/",
+    });
+
+    return response;
+  } catch (error) {
+    console.log("Token refresh error:", error);
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+}

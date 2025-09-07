@@ -156,6 +156,9 @@
         也就是说 一个 next 函数（一个工作线程）在完成一个任务后，并不会“死亡”，而是立刻去“领取”下一个任务并执行。
 
 
+
+
+
 - worker hash 进行计算
 - 性能优化
     使用useCallback缓存上传处理文件函数，避免重复创建
@@ -198,3 +201,13 @@
                     console.log(path.resolve('foo/bar', '/tmp/file/')); // 输出: /tmp/file (同上，第二个片段是绝对路径)
                     console.log(path.resolve('foo', 'bar')); // 输出: /home/user/myproject/foo/bar (基于当前工作目录的绝对路径)
                 ```
+
+## 文件合并流程
+1. 前端传入文件hash值，然后使用ensureUploadDirs来确保文存在，之后读取meta文件获取文件相关信息，如文件名称、分片数量。之后调用mergeChunks进行文件合并
+2. 在mergeChunks中，先通过hash获取分片目录，然后创建最终存储的目录，之后创建createWriteStream 文件可写流。
+    最后按顺序读取文件（readFileSync）并写入ws.write(data)，全部写入后关闭写入流并返回结果
+
+
+- EventEmitter
+    EventEmitter 是一个类，许多核心模块（如 fs, http, stream 等）都继承自它，从而具备了事件处理能力。
+    - 手写EventEmitter

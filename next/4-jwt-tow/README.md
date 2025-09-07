@@ -123,3 +123,78 @@
                 refreshUrl.searchParams.set("redirect", request.url);
                 return NextResponse.redirect(refreshUrl);
             ```
+
+
+### 大文件上传
+当文件比较大的时候，由于各种原因，容易失败，并且上传速度很慢，一旦失败需要从新上传，用户体验不好
+
+- 实现策略
+    采用分片上传策略来并发上传（限制并发数量，进行断点续传）
+    并行上传，提升稳定性和效率。上传前通过webworker计算文件整体以及分片的hash，向服务器校验，若文件已经存在则直接妙传。
+    前端记录上传进度和已经成功分片，支持短点续传，避免重复上传，提高用户体验。
+    服务器按序接收分片，存储后进行合并，并检验最终文件的完整性，结合唯一标志和分片索引，确保上传可靠。
+    整个过程配合进度条和错误重试机制，提升用户体验和系统健壮性。
+
+- 并发上传原理**难点**
+    底层是通过js事件循环机制，本质上不是并发
+    1. 核心思想是通过一个任务队列（queue） + 有限的工作线程池（workers）来控制并发。Promise.all + 递归
+        queue 是一个简单的数组，但它扮演了任务队列的角色。它**存储了所有需要上传的分片索引**。
+        workers 数组存放的是 Promise，每个 Promise 代表一个正在执行的上传任务（即一个“工作线程”）。
+    2. 初始化工作池
+        ```js
+            for(let c = 0; c < Math.min(MAX_CONCURRENCY, queue.length); c++){
+                workers.push(next());
+            }
+        ```
+        没有为每一个分片都创建一个上传任务,只创建 Math.min(MAX_CONCURRENCY, queue.length) 个初始任务。
+        这样**同时干活的“工人”数量也就被限制在了这个范围内**。
+        每个 next() 调用启动一个“工作线程”（实际上是一个异步函数）Promise。
+    3.  核心逻辑
+        每次 next 执行时，都会从 queue 中 shift() 取出一个分片索引。然后**调用 uploadChunk 上传这个分片**。
+        **无论**上传成功还是失败（finally 块确保总会执行），**只要队列中还有任务（queue.length > 0），它就会再次调用自己 next()。**
+
+        也就是说 一个 next 函数（一个工作线程）在完成一个任务后，并不会“死亡”，而是立刻去“领取”下一个任务并执行。
+
+
+- worker hash 进行计算
+- 性能优化
+    使用useCallback缓存上传处理文件函数，避免重复创建
+- ts的使用
+    约定主线程和worker之间的通信格式
+    HashWorkerIn，HashWorkerOut
+    使用 as 来断言，表示这个对象一定是这个类型
+    非空断言，！ 表示这个对象一定有不为空
+
+- es6
+    使用Set存储已经上传的分片索引
+    使用 ？？ 空值运算符
+    使用Promise.all 并发上传
+    Map 和 Set
+        使用Set来实现大文件切片上传索引不重复
+
+- useRef高级使用
+    绑定DOM对象
+    保存值或对象
+    eg：保存AbortController对象，AbortController 有一定的开销，不应该在组件挂载的时候创建
+
+- restful api
+    - uploadChunk 上传分片使用PUT  直接替换片段，因为片段无法修改
+    - 自定义请求头 使服务器可以在不解析请求体的情况下快速识别分片归属和顺序，这样更加的快
+
+
+- 后端
+    1. 文件存储
+        在文件系统中 ‘a’ 为相对路径 ，"/b" 为相对路径
+        - 文件路径拼接 path.join与path.resolve的区别
+            **path.join** ：它只是简单地将字符串连接起来，并处理掉多余的斜杠和.
+                从左到右，
+                ```js
+                console.log(path.join('/foo', 'bar', 'baz/asdf')); // 输出: /foo/bar/baz/asdf
+                console.log(path.join('/foo', 'bar', '..', 'baz/asdf')); // 输出: /foo/baz/asdf (.. 被解析)
+                ```
+            **path.resolve**:
+                若后面的片段以 / 开头那么就会覆盖掉前面的路径
+                ```js
+                    console.log(path.resolve('foo/bar', '/tmp/file/')); // 输出: /tmp/file (同上，第二个片段是绝对路径)
+                    console.log(path.resolve('foo', 'bar')); // 输出: /home/user/myproject/foo/bar (基于当前工作目录的绝对路径)
+                ```

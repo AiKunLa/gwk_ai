@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
 
     const { accessToken, refreshToken } = await createTokens(user.id);
 
+
     // 将refreshToken 存储到数据库中，以便于之后用于无感刷新
     // 存储到数据库中，可以防止盗用
     await prisma.user.update({
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
     });
 
     // 将token放入 cookie中
-    setAuthCookies(accessToken, refreshToken);
+    await setAuthCookies(accessToken, refreshToken);
 
     return NextResponse.json(
       {

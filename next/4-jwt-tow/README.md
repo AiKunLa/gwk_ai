@@ -211,3 +211,27 @@
 - EventEmitter
     EventEmitter 是一个类，许多核心模块（如 fs, http, stream 等）都继承自它，从而具备了事件处理能力。
     - 手写EventEmitter
+
+
+
+##  虚拟列表
+- 数据从哪里来
+    通过爬虫爬取
+    安装 pnpm i x-crawl
+    安装 pnpm i puppeteer 安装Puppeteer所需的Chrome浏览器版本。
+        
+    - x-crawl 是一个灵活且功能强大的 Node.js 多功能爬虫库，支持页面、接口和文件的抓取，并集成了 AI 辅助功能以智 能应对反爬机制和优化爬取策略。
+
+    - 通过正则来切分数据，
+    - node可以通过querySelector来查询数据，并获取。它是通过在内存中构建DOM树来实现的，x-crawl支持这种
+    - AI辅助
+        用prompt 去描述我们需要的内容，然后AI回去和内存沟通然后获取
+    1. Puppeteer 无头浏览器
+- 如何渲染列表
+    - 时间分片
+        setTimeout + requestAnimationFrame + createDocumentFragment
+    - 虚拟列表
+        按需加载
+    - 分页
+        滚动加载
+        点击分页

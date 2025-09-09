@@ -1,0 +1,15 @@
+{
+    "presets": [
+        [
+            // 用于处理React代码的转译
+            "@babel/preset-react",
+            {
+                // 将JSX标签默认转换函数从React.createElement修改为自定义框架Didact的createElement函数
+                "pragma":"Didact.createElement", 
+                // 将JSX中的Fragment（文档碎片）元素转换为Didact.Fragment组件
+                "prgmaFrag":"Didact.Fragment"
+            }
+        ]
+    ]
+}
+// 配置之后

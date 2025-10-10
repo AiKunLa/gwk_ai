@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // polyfill（兼容性补丁）：如果浏览器不支持 Promise，就手动实现一个简化版
+        if(!window.Promise){
+            // 手写一个简化版的 Promise 构造函数
+            window.Promise = function(executor){
+                // 存储回调函数的变量
+                let onResolve;
+                
+                // then 方法：用于注册成功后的回调函数
+                this.then = function(callback){
+                    // 1. 保存传入的回调函数
+                    onResolve = callback
+                    
+                    // 2. 返回 this 是为了实现链式调用
+                    //    这样就可以 promise.then().then().then()
+                    //    如果不返回 this，第二个 then() 就会报错（因为返回 undefined）
+                    return this
+                }
+                
+                // resolve 方法：触发回调函数执行
+                const resolve = (value) => {
+                    // 如果注册了回调函数，就执行它
+                    if(onResolve){
+                        onResolve(value)
+                    }
+                }
+                
+                // 立即执行传入的 executor 函数，并传入 resolve 方法
+                // 这样用户就可以在异步操作完成后调用 resolve()
+                if(executor){
+                    try {
+                        executor(resolve)
+                    } catch(e) {
+                        console.error('Promise 执行出错:', e)
+                    }
+                }
+            }
+        }
+        
+        // ============ 测试代码 ============
+        // 使用示例：
+        const myPromise = new Promise((resolve) => {
+            console.log('Promise 开始执行')
+            // 模拟异步操作（比如网络请求）
+            setTimeout(() => {
+                console.log('1秒后完成')
+                resolve('成功！') // 触发 then 中的回调
+            }, 1000)
+        })
+        
+        // 链式调用（因为 then 返回了 this）
+        myPromise
+            .then(result => {
+                console.log('第1次处理:', result)
+                return result
+            })
+            .then(result => {
+                console.log('第2次处理:', result)
+                return result
+            })
+    </script>
+</body>
+</html>

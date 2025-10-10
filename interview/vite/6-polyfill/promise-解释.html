@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise polyfill 详细解释</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 { color: #333; }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e83e8c;
+        }
+        .output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Promise polyfill 详细解释</h1>
+
+    <div class="section">
+        <h2>1️⃣ 为什么要返回 this？</h2>
+        <p><strong>答案：为了实现链式调用（Method Chaining）</strong></p>
+        <p>返回 <code>this</code> 就是返回当前对象本身，这样就可以继续调用该对象的方法。</p>
+    </div>
+
+    <div class="section">
+        <h2>2️⃣ 不返回 this 的问题</h2>
+        <div class="output" id="output1">运行测试中...</div>
+    </div>
+
+    <div class="section">
+        <h2>3️⃣ 返回 this 的好处</h2>
+        <div class="output" id="output2">运行测试中...</div>
+    </div>
+
+    <div class="section">
+        <h2>4️⃣ 完整的简化 Promise 示例</h2>
+        <div class="output" id="output3">运行测试中...</div>
+    </div>
+
+    <script>
+        console.clear();
+        
+        // ==========================================
+        // 示例 1：不返回 this 的问题
+        // ==========================================
+        console.log('=== 示例 1：不返回 this ===');
+        
+        function MyPromiseNoReturn() {
+            let callback;
+            
+            // ❌ 没有返回 this
+            this.then = function(cb) {
+                callback = cb;
+                // 没有返回任何东西
+            }
+            
+            this.resolve = function(value) {
+                if (callback) callback(value);
+            }
+        }
+        
+        try {
+            const p1 = new MyPromiseNoReturn();
+            // ❌ 这样会报错，因为 then() 返回 undefined
+            // p1.then(x => x + 1).then(x => x * 2); // 报错！
+            
+            // 只能这样使用（不能链式调用）
+            p1.then(value => {
+                document.getElementById('output1').innerHTML = `
+                    ❌ 不能链式调用的例子：<br>
+                    const p = new MyPromiseNoReturn();<br>
+                    p.then(callback); // ✅ 可以<br>
+                    p.then(cb1).then(cb2); // ❌ 报错！<br><br>
+                    因为 then() 没有返回值（返回 undefined）<br>
+                    undefined.then() 会报错！
+                `;
+                console.log('收到值:', value);
+            });
+            
+            setTimeout(() => p1.resolve(100), 100);
+        } catch (e) {
+            console.error('错误:', e);
+        }
+
+        // ==========================================
+        // 示例 2：返回 this 实现链式调用
+        // ==========================================
+        console.log('\n=== 示例 2：返回 this ===');
+        
+        function MyPromiseWithReturn() {
+            let callback;
+            
+            // ✅ 返回 this
+            this.then = function(cb) {
+                callback = cb;
+                return this; // 🔑 关键：返回当前对象
+            }
+            
+            this.resolve = function(value) {
+                if (callback) callback(value);
+            }
+        }
+        
+        const p2 = new MyPromiseWithReturn();
+        
+        // ✅ 现在可以链式调用了！
+        p2
+            .then(value => {
+                console.log('第一个 then:', value);
+                return value;
+            })
+            .then(value => {
+                console.log('第二个 then:', value);
+                return value;
+            })
+            .then(value => {
+                console.log('第三个 then:', value);
+                document.getElementById('output2').innerHTML = `
+                    ✅ 可以链式调用的例子：<br>
+                    const p = new MyPromiseWithReturn();<br>
+                    p.then(cb1).then(cb2).then(cb3); // ✅ 成功！<br><br>
+                    
+                    <strong>原理：</strong><br>
+                    p.then(cb1) 返回 p（this）<br>
+                    ↓<br>
+                    p.then(cb2) 返回 p（this）<br>
+                    ↓<br>
+                    p.then(cb3) 返回 p（this）<br><br>
+                    
+                    每次都返回同一个对象，所以可以一直调用下去！
+                `;
+            });
+        
+        setTimeout(() => p2.resolve(200), 200);
+
+        // ==========================================
+        // 示例 3：更完整的 Promise polyfill
+        // ==========================================
+        console.log('\n=== 示例 3：更完整的实现 ===');
+        
+        function SimplePromise(executor) {
+            let onResolve = null;
+            let value = null;
+            let isResolved = false;
+            
+            // then 方法：注册回调并返回 this
+            this.then = function(callback) {
+                onResolve = callback;
+                
+                // 如果已经 resolve 了，立即执行回调
+                if (isResolved) {
+                    onResolve(value);
+                }
+                
+                return this; // 🔑 返回 this 实现链式调用
+            }
+            
+            // resolve 方法：触发回调
+            const resolve = (val) => {
+                value = val;
+                isResolved = true;
+                
+                if (onResolve) {
+                    onResolve(value);
+                }
+            }
+            
+            // 立即执行 executor
+            try {
+                executor(resolve);
+            } catch (e) {
+                console.error('执行出错:', e);
+            }
+        }
+        
+        // 使用示例
+        const p3 = new SimplePromise((resolve) => {
+            console.log('Promise 开始执行...');
+            setTimeout(() => {
+                console.log('2秒后 resolve');
+                resolve('完成！');
+            }, 2000);
+        });
+        
+        // 链式调用
+        p3
+            .then(result => {
+                console.log('第1次处理:', result);
+                document.getElementById('output3').innerHTML = `
+                    ✅ 完整的 Promise 示例：<br><br>
+                    
+                    <strong>代码：</strong><br>
+                    const p = new SimplePromise((resolve) => {<br>
+                    &nbsp;&nbsp;setTimeout(() => resolve('完成！'), 2000);<br>
+                    });<br><br>
+                    
+                    p.then(result => console.log(result));<br><br>
+                    
+                    <strong>执行结果：</strong><br>
+                    ${result}<br><br>
+                    
+                    <strong>关键点：</strong><br>
+                    1. executor 立即执行<br>
+                    2. then() 注册回调函数<br>
+                    3. resolve() 触发回调<br>
+                    4. then() 返回 this 支持链式调用
+                `;
+                return result;
+            });
+
+        // ==========================================
+        // 对比真实的 Promise
+        // ==========================================
+        console.log('\n=== 真实的 Promise 对比 ===');
+        
+        const realPromise = new Promise((resolve) => {
+            setTimeout(() => resolve('真实 Promise'), 100);
+        });
+        
+        // 真实的 Promise 也支持链式调用
+        realPromise
+            .then(value => {
+                console.log('真实 Promise 第1个 then:', value);
+                return value + ' -> 第2步';
+            })
+            .then(value => {
+                console.log('真实 Promise 第2个 then:', value);
+                return value + ' -> 第3步';
+            })
+            .then(value => {
+                console.log('真实 Promise 第3个 then:', value);
+            });
+
+        // ==========================================
+        // 类比：jQuery 的链式调用
+        // ==========================================
+        console.log('\n=== 类比：其他链式调用的例子 ===');
+        
+        // 模拟 jQuery 风格的链式调用
+        function MyElement(selector) {
+            this.element = selector;
+            
+            this.css = function(prop, value) {
+                console.log(`设置 ${prop}: ${value}`);
+                return this; // 返回 this 实现链式调用
+            }
+            
+            this.addClass = function(className) {
+                console.log(`添加类: ${className}`);
+                return this; // 返回 this 实现链式调用
+            }
+            
+            this.show = function() {
+                console.log('显示元素');
+                return this; // 返回 this 实现链式调用
+            }
+        }
+        
+        // 链式调用示例
+        new MyElement('.box')
+            .css('color', 'red')
+            .addClass('active')
+            .show();
+        
+        console.log('\n✅ 链式调用的核心：每个方法都返回 this（当前对象）');
+    </script>
+</body>
+</html>
+

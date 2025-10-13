@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM型XSS漏洞演示与防护</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .vulnerable {
+            border-left: 4px solid #ff4444;
+        }
+        .safe {
+            border-left: 4px solid #44ff44;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #666;
+            margin-top: 20px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #0dcaf0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .reset-btn {
+            background-color: #f44336;
+        }
+        .reset-btn:hover {
+            background-color: #da190b;
+        }
+        .output {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        .attack-example {
+            background-color: #ffe6e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .comment-list {
+            margin-top: 20px;
+        }
+        .comment-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 3px solid #4CAF50;
+        }
+        .comment-time {
+            color: #999;
+            font-size: 12px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM型XSS漏洞演示与防护</h1>
+
+    <!-- 存在漏洞的版本 -->
+    <div class="container vulnerable">
+        <h2>❌ 不安全版本（存在DOM型XSS漏洞）</h2>
+        <div class="warning">
+            <strong>⚠️ 警告：</strong>此版本使用 <code>innerHTML</code> 直接插入用户输入，存在XSS漏洞！
+        </div>
+        <form id="vulnerableForm">
+            <label for="vulnerableInput">输入内容：</label>
+            <input type="text" id="vulnerableInput" placeholder="尝试输入: <img src=x onerror=alert('XSS攻击!')>">
+            <button type="button" onclick="updateVulnerable()">实时显示</button>
+            <button type="button" class="reset-btn" onclick="clearVulnerable()">清除</button>
+        </form>
+        <div class="output" id="vulnerableOutput"></div>
+        
+        <div class="attack-example">
+            <strong>常见攻击示例：</strong><br>
+            1. <code>&lt;img src=x onerror=alert('XSS')&gt;</code><br>
+            2. <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code><br>
+            3. <code>&lt;iframe src="javascript:alert('XSS')"&gt;&lt;/iframe&gt;</code><br>
+            4. <code>&lt;svg onload=alert('XSS')&gt;</code><br>
+            5. <code>&lt;body onload=alert('XSS')&gt;</code>
+        </div>
+    </div>
+
+    <!-- 安全版本 -->
+    <div class="container safe">
+        <h2>✅ 安全版本（防护XSS攻击）</h2>
+        <div class="info">
+            <strong>✓ 安全措施：</strong>使用 <code>textContent</code> 或 HTML 转义处理用户输入
+        </div>
+        <form id="safeForm">
+            <label for="safeInput">输入内容：</label>
+            <input type="text" id="safeInput" placeholder="尝试输入任何内容，都会被安全处理">
+            <button type="button" onclick="updateSafe()">实时显示</button>
+            <button type="button" class="reset-btn" onclick="clearSafe()">清除</button>
+        </form>
+        <div class="output" id="safeOutput"></div>
+    </div>
+
+    <!-- 评论系统示例 -->
+    <div class="container">
+        <h2>💬 评论系统（安全版本）</h2>
+        <form id="commentForm">
+            <label for="nameInput">用户名：</label>
+            <input type="text" id="nameInput" placeholder="请输入您的用户名" required>
+            
+            <label for="commentInput">评论内容：</label>
+            <input type="text" id="commentInput" placeholder="请输入评论内容" required>
+            
+            <button type="submit">提交评论</button>
+            <button type="button" class="reset-btn" onclick="clearComments()">清空评论</button>
+        </form>
+        
+        <div class="comment-list" id="commentList">
+            <!-- 评论将显示在这里 -->
+        </div>
+    </div>
+
+    <!-- 防护说明 -->
+    <div class="container">
+        <h2>🛡️ XSS防护方法说明</h2>
+        <h3>1. 使用 textContent 替代 innerHTML</h3>
+        <pre><code>// 不安全
+element.innerHTML = userInput;
+
+// 安全
+element.textContent = userInput;</code></pre>
+
+        <h3>2. HTML转义处理</h3>
+        <pre><code>function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}</code></pre>
+
+        <h3>3. 使用DOMPurify库</h3>
+        <pre><code>const clean = DOMPurify.sanitize(dirty);</code></pre>
+
+        <h3>4. 内容安全策略（CSP）</h3>
+        <pre><code>&lt;meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; script-src 'self'"&gt;</code></pre>
+    </div>
+
+    <script>
+        // ========== 不安全版本（存在XSS漏洞）==========
+        function updateVulnerable() {
+            const input = document.getElementById('vulnerableInput');
+            const output = document.getElementById('vulnerableOutput');
+            // 危险：直接使用innerHTML，会执行恶意脚本
+            output.innerHTML = input.value;
+        }
+
+        function clearVulnerable() {
+            document.getElementById('vulnerableInput').value = '';
+            document.getElementById('vulnerableOutput').innerHTML = '';
+        }
+
+        // ========== 安全版本（防护XSS）==========
+        function updateSafe() {
+            const input = document.getElementById('safeInput');
+            const output = document.getElementById('safeOutput');
+            // 安全：使用textContent，不会执行脚本
+            output.textContent = input.value;
+        }
+
+        function clearSafe() {
+            document.getElementById('safeInput').value = '';
+            document.getElementById('safeOutput').textContent = '';
+        }
+
+        // ========== HTML转义函数 ==========
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // ========== 评论系统（安全实现）==========
+        const comments = [];
+
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('nameInput');
+            const commentInput = document.getElementById('commentInput');
+            
+            // 获取输入值
+            const name = nameInput.value.trim();
+            const comment = commentInput.value.trim();
+            
+            if (!name || !comment) {
+                alert('用户名和评论内容不能为空！');
+                return;
+            }
+            
+            // 创建评论对象
+            const commentObj = {
+                id: Date.now(),
+                name: escapeHtml(name),  // HTML转义处理
+                comment: escapeHtml(comment),  // HTML转义处理
+                time: new Date().toLocaleString('zh-CN')
+            };
+            
+            // 添加到评论数组
+            comments.push(commentObj);
+            
+            // 渲染评论列表
+            renderComments();
+            
+            // 清空输入框
+            nameInput.value = '';
+            commentInput.value = '';
+        });
+
+        function renderComments() {
+            const commentList = document.getElementById('commentList');
+            
+            if (comments.length === 0) {
+                commentList.innerHTML = '<p style="color: #999;">暂无评论</p>';
+                return;
+            }
+            
+            // 安全地构建HTML
+            let html = '';
+            comments.forEach(c => {
+                html += `
+                    <div class="comment-item">
+                        <strong>${c.name}</strong>
+                        <span class="comment-time">${c.time}</span>
+                        <p>${c.comment}</p>
+                    </div>
+                `;
+            });
+            
+            commentList.innerHTML = html;
+        }
+
+        function clearComments() {
+            if (comments.length === 0) {
+                alert('评论列表已经是空的');
+                return;
+            }
+            
+            if (confirm('确定要清空所有评论吗？')) {
+                comments.length = 0;
+                renderComments();
+            }
+        }
+
+        // ========== 实时输入监听 ==========
+        document.getElementById('vulnerableInput').addEventListener('input', updateVulnerable);
+        document.getElementById('safeInput').addEventListener('input', updateSafe);
+
+        // 初始化显示
+        renderComments();
+    </script>
+</body>
+</html>

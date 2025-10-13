@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Search results for: <?php echo $_GET['q']; ?></h2>
+    <input type="text" id="searchInput">
+    <button id="searchButton">Search</button>
+    <h2 id="searchResults"></h2>
+    <script>
+        const searchButton = document.getElementById('searchButton')
+        const searchInput = document.getElementById('searchInput')
+        const searchResults = document.getElementById('searchResults')
+        searchButton.addEventListener('click',()=>{
+            const query = searchInput.value
+            // 发送请求
+            fetch(`/search.php?q=${query}`)
+            .then(response => response.text())
+            .then(data => {
+                searchResults.innerHTML = data
+            })
+        })
+    </script>
+</body>
+</html>

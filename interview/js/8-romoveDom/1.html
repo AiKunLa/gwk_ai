@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="list">
+        <li>
+            1
+            <button class="del">删除</button>
+        </li>
+        <li>
+            2
+            <button class="del">删除</button>
+        </li>
+        <li>
+            3
+            <button class="del">删除</button>
+        </li>
+    </ul>
+    <script>
+        // document.querySelectorAll('.del').forEach(btn => {
+        //     btn.addEventListener('click',(e)=>{
+        //         const li = e.target.parentNode
+        //         // li.remove() // 这种的兼容性不好
+        //         li.parentNode.removeChild(li) // 这种的兼容性更好
+        //     })
+        // })
+        document.getElementById('list').addEventListener('click',(e)=> {
+            if(e.target.classList.contains('del')){
+                const li = e.target.closest('li')
+                li.parentNode.removeChild(li)
+            }
+        })
+    </script>
+</body>
+</html>

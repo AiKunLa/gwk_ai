@@ -1,0 +1,130 @@
+{
+  "profiles": {
+    "development": {
+      "mode": "monitor",
+      "riskThreshold": 70,
+      "enableSanitization": true,
+      "enableLogging": true,
+      "enableRateLimit": false,
+      "description": "开发环境配置 - 仅监控不拦截"
+    },
+    "staging": {
+      "mode": "filter",
+      "riskThreshold": 50,
+      "enableSanitization": true,
+      "enableLogging": true,
+      "enableRateLimit": true,
+      "rateLimit": 120,
+      "description": "预发布环境配置 - 过滤危险内容"
+    },
+    "production": {
+      "mode": "block",
+      "riskThreshold": 50,
+      "enableSanitization": true,
+      "enableLogging": true,
+      "enableRateLimit": true,
+      "rateLimit": 60,
+      "maxLogs": 10000,
+      "description": "生产环境配置 - 严格拦截"
+    },
+    "high-security": {
+      "mode": "block",
+      "riskThreshold": 30,
+      "enableSanitization": true,
+      "enableLogging": true,
+      "enableRateLimit": true,
+      "rateLimit": 30,
+      "maxLogs": 50000,
+      "description": "高安全级别配置 - 超严格防护"
+    }
+  },
+  
+  "rules": {
+    "injection": {
+      "enabled": true,
+      "weight": 35,
+      "action": "block",
+      "description": "防御指令注入攻击"
+    },
+    "roleplay": {
+      "enabled": true,
+      "weight": 35,
+      "action": "block",
+      "description": "防御角色冒充攻击"
+    },
+    "delimiter": {
+      "enabled": true,
+      "weight": 30,
+      "action": "filter",
+      "description": "防御分隔符攻击"
+    },
+    "extraction": {
+      "enabled": true,
+      "weight": 30,
+      "action": "block",
+      "description": "防御信息提取攻击"
+    },
+    "jailbreak": {
+      "enabled": true,
+      "weight": 40,
+      "action": "block",
+      "description": "防御越狱攻击"
+    },
+    "encoding": {
+      "enabled": true,
+      "weight": 25,
+      "action": "filter",
+      "description": "防御编码绕过攻击"
+    }
+  },
+  
+  "whitelist": [
+    "这是一个测试消息",
+    "^系统管理员：",
+    "^官方公告："
+  ],
+  
+  "alerting": {
+    "enabled": true,
+    "channels": {
+      "email": {
+        "enabled": false,
+        "recipients": ["security@example.com"],
+        "minRiskScore": 70
+      },
+      "webhook": {
+        "enabled": false,
+        "url": "https://your-webhook-url.com/security",
+        "minRiskScore": 60
+      },
+      "console": {
+        "enabled": true,
+        "minRiskScore": 50
+      }
+    }
+  },
+  
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "outputs": ["console", "file"],
+    "file": {
+      "path": "./logs/defense.log",
+      "maxSize": "10MB",
+      "maxFiles": 30
+    },
+    "includeContext": true,
+    "sanitizeInput": true,
+    "maxInputLength": 200
+  },
+  
+  "rateLimit": {
+    "window": 60000,
+    "max": 60,
+    "keyGenerator": "ip",
+    "skipSuccessfulRequests": false
+  },
+  
+  "customRules": []
+}
+

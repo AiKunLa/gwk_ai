@@ -1,0 +1,42 @@
+{
+  "name": "prompt-defense-system",
+  "version": "1.0.0",
+  "description": "生产级提示词攻击防御系统 - 提供真实的安全防护能力",
+  "main": "prompt-defense-system.js",
+  "scripts": {
+    "start": "node server-example.js",
+    "demo": "node -e \"console.log('请在浏览器中打开 production-demo.html 查看演示')\"",
+    "test": "node test-defense.js"
+  },
+  "keywords": [
+    "prompt",
+    "security",
+    "defense",
+    "ai",
+    "llm",
+    "attack",
+    "protection",
+    "middleware",
+    "prompt-injection",
+    "jailbreak"
+  ],
+  "author": "AI Defense Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "body-parser": "^1.20.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/prompt-defense-system"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/prompt-defense-system/issues"
+  },
+  "homepage": "https://github.com/your-repo/prompt-defense-system#readme"
+}
+

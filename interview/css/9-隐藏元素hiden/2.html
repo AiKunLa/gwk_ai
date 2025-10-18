@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opacity与图层 GPU加速</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to right, red, blue);
+            border-radius: 20px;
+            /* GPU加速 */
+            transform: translateZ(0);
+            /* 告诉浏览器这个属性会变化，让浏览器提前准备好 */
+            will-change: opacity;
+            /* 过渡效果 */
+            transition: opacity 1s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+        .box .hidden { 
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="myBox" class="box"></div>
+    <script>
+        const myBox = document.getElementById('myBox');
+        myBox.addEventListener('click', ()=> {
+            myBox.style.opacity = '0';
+        }) 
+
+    </script>
+</body>
+</html>

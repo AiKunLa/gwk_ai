@@ -28,3 +28,29 @@ instanceof 用于判断 构造函数.prototype 是否出现在 obj1 的原型链
 
 ## new
 
+使用new需要返回一个实例对象
+    首选创建一个空对象，并将空对象的__proto__指向构造函数的原型上
+    将构造函数的this指向创建的空对象，并执行构造函数
+    若构造函数返回的不是一个基本对象，那么返回结果为这个对象，否则返回创建的对象
+
+创建空对象
+    const newObj = Object.create(counstruct.prototype)
+
+## promise
+
+
+
+## debounce throttle
+
+防抖和节流
+
+## getType 类型判断 typeof
+
+typeof 对于对象只能判断为object ，可以判断基本数据类型。
+Object.prototype.toString.call() 获取到数据类型为一个[Object 数据类型]
+
+现在需要一个结合两种类型判断的函数
+    若数据为null，则返回 null+‘’
+    若对于基本数据类型，则之间使用typeof来判断
+    若是对象则使用Object.prototype.toString.call 获取字符串中的数据类型即可
+        [Object Array] -> Array

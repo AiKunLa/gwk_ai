@@ -54,3 +54,17 @@ Object.prototype.toString.call() 获取到数据类型为一个[Object 数据类
     若对于基本数据类型，则之间使用typeof来判断
     若是对象则使用Object.prototype.toString.call 获取字符串中的数据类型即可
         [Object Array] -> Array
+
+## 手写call apply
+
+手写call
+    判断调用的是否为函数
+    判断传入的this是否为对象，
+    将该函数绑定到传入的上下文中
+    通过对象方法的形式来调用函数
+    删除绑定的函数
+    返回结果
+
+要使用Symbol来创建唯一属性名,来避免对象中的属性冲突
+要对传入的context进行判断，严格模式下window为undefined
+手写apply的时候，要对第二个参数进行判断，第二个参数必须为数组。

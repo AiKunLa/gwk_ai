@@ -68,3 +68,11 @@ Object.prototype.toString.call() 获取到数据类型为一个[Object 数据类
 要使用Symbol来创建唯一属性名,来避免对象中的属性冲突
 要对传入的context进行判断，严格模式下window为undefined
 手写apply的时候，要对第二个参数进行判断，第二个参数必须为数组。
+
+## 手写bind
+
+
+## 手写柯里化
+
+
+## 

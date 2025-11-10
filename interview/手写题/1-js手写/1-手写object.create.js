@@ -40,3 +40,10 @@ console.log(Object.getPrototypeOf(child) === parent) // true
 console.log(child.prototype === parent) // false
 
 console.log(Object.getPrototypeOf(child))
+
+
+function myCreate(obj){
+    function fn(){}
+    fn.prototype = obj
+    return new fn()
+}

@@ -165,3 +165,29 @@ Function.prototype.myBindDif = function(context,...args){
   return boundFn
 
 }
+
+
+
+// 11-7
+Function.prototype.myCall1107 = function(obj,...args){
+  // 必须是函数才能调用
+  if(typeof this !== 'function') return  new TypeError('The function of call must be a funciton to use!')
+  
+  
+  // 处理传入的对象，传入的对象若是基本数据类型则将其包装,若传入的是undefined或者是null则使用全局变量
+  if(typeof obj === undefined ||  obj  === null){
+    obj = typeof window !== undefined ? window : globalThis
+  }
+
+
+  // 使用Symbol来生成唯一的属性名，避免造成属相冲突
+  const fnSymbol = Symbol('fn')
+  obj[fnSymbol] = this
+
+  const result = obj[fnSymbol](...args)
+
+  delete obj[fnSymbol]
+
+  return result
+
+}

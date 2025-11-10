@@ -23,3 +23,19 @@ function Person(name,age){
 const p1 = myNew(Person,'Alice',52)
 
 console.log(p1)
+
+
+
+
+function myNewBoy(constructor,...args){
+
+    if(typeof constructor !== 'function') return new TypeError('constructor is not a function')
+
+    const newObj = Object.create(constructor.prototype)
+    const result = constructor.apply(newObj,args)
+
+    if(result !== null && (typeof result === 'object' || typeof result ==='function')) return result
+
+    return newObj
+
+}

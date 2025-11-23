@@ -3,7 +3,7 @@ const flatten = (arr) => {
   for (let item of arr) {
     // 若item是一个数组，则递归
     if (Array.isArray(item)) {
-        // 合并递归后的数组
+      // 合并递归后的数组
       result = result.concat(flatten(item));
     } else {
       result.push(item);
@@ -22,3 +22,15 @@ const arr = [
 ];
 
 console.log(flatten(arr));
+
+const flatten2 = (arrs) => {
+  const result = [];
+  arrs.forEach((arr) => {
+    if (!Array.isArray(arr)) {
+      result.push(arr);
+    } else {
+      result.push(flatten2(arr));
+    }
+  });
+  return result;
+};

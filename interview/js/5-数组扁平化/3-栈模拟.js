@@ -12,3 +12,17 @@ function flatten(arr) {
   }
   return res.reverse();
 }
+
+function flatten2(arr) {
+  const stack = [...arr];
+  const result = [];
+  while (stack.length !== 0) {
+    const pop = stack.pop();
+    if (!Array.isArray(pop)) {
+      result.push(pop);
+    } else {
+      stack.push(...pop);
+    }
+  }
+  return result.reverse();
+}

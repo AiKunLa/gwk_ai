@@ -5,7 +5,15 @@ function mearge(arr) {
     const result = [arr[0]]
 
     for (let i = 1; i  < arr.length ; i++) {
-        
+        const cur = arr[i]
+        const last = result[result.length - 1]
+        // 若当前区间的start小于上一个区间的end，合并
+        if (cur[0] <= last[1]) {
+            last[1] = Math.max(last[1], cur[1])
+        } else {
+            result.push(cur)
+        }
     }
+    return result
 
 }

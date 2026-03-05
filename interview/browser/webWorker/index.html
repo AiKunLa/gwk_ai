@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Worker Demo</title>
+</head>
+<body>
+  <h1>Web Worker 示例</h1>
+  <pre id="log"></pre>
+  <script>
+    const originalLog = console.log
+    const el = document.getElementById('log')
+    console.log = (...args) => {
+      el.textContent += args.map(a => (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' ') + '\n'
+      originalLog(...args)
+    }
+  </script>
+  <script src="./main.js"></script>
+</body>
+</html>

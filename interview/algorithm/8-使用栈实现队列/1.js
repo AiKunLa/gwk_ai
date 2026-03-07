@@ -9,7 +9,7 @@ class MyQueue {
 
     // 出队列 在数组尾部操作
     queuePop() {
-        if(this.outStack.length === 0) {
+        if (this.outStack.length === 0) {
             this.moveInToOut()
         }
         return this.outStack.pop()
@@ -17,18 +17,19 @@ class MyQueue {
 
     // 将队尾栈的数据全部放到队头栈中
     moveInToOut() {
-        while(this.inStack.length > 0) {
+        while (this.inStack.length > 0) {
             this.outStack.push(this.inStack.pop())
         }
     }
 
+    // 获取对头元素
     queuePeek() {
-        if(this.outStack.length === 0) {
+        if (this.outStack.length === 0) {
             this.moveInToOut()
         }
         return this.outStack[this.outStack.length - 1]
     }
-    
+
 }
 
 const myQueue = new MyQueue()

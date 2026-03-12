@@ -12,6 +12,7 @@
   "dependencies": {
     "@langchain/core": "^1.1.31",
     "@langchain/openai": "^1.2.12",
+    "chalk": "^5.6.2",
     "dotenv": "^17.3.1",
     "langchain": "^1.2.30",
     "zod": "^4.3.6"

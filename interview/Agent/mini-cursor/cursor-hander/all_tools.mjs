@@ -2,6 +2,7 @@ import { tool } from '@langchain/core/tools'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
 import { z } from 'zod'
+import fs from 'node:fs/promises'
 
 const readFileTool = tool(
     async ({ filePath }) => {
@@ -33,7 +34,7 @@ const writeFileTool = tool(
             const dir = path.dirname(filePath)
             // 异步创建目录，如果父目录不存在，recursive 表示递归 则递归创建整个目录路径
             await fs.mkdir(dir, { recursive: true })
-            await fs.readFile(dir, content, 'utf-8')
+            await fs.writeFile(filePath, content, 'utf-8')
             console.log(`[工具调用] write_file("${dir}") 成功写入${content}`)
             return `写入成功：${filePath}`
         } catch (error) {
@@ -86,11 +87,8 @@ const executeCommanTool = tool(
                     ，不要使用cd命令切换目录
                     ` : ''
                     resolve(`命令执行成功${command} ${cwdInfo}`)
-                    process.exit(0)
                 } else {
-                    if (errorMsg)
-                        console.log(`[工具调用] excute_command(${command}) 失败，错误：${errorMsg}`)
-                    process.exit(code || 1)
+                    resolve(`命令执行失败，退出码: ${code}`)
                 }
             })
         })

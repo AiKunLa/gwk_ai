@@ -1,0 +1,16 @@
+{
+  "name": "mcp",
+  "version": "1.0.0",
+  "description": "之前的工具调用都是本地手写的function-call，若要进一步拓展，则每一个功能都需要去自己写function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
+  }
+}

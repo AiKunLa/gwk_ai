@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(pnpm install)",
-      "Bash(node main.mjs)"
+      "Bash(node main.mjs)",
+      "Bash(wmic process:*)",
+      "Bash(tasklist /V /FI 'IMAGENAME eq node.exe')"
     ]
   }
 }

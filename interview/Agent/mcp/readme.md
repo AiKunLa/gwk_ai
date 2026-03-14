@@ -39,3 +39,17 @@ Model Context Protocol Anthorpic  模型上下文协议
     tool result , ToolMessage Context
 
 - sdk @modelcontextprotocol/sdk
+
+- 手写MCP tool
+ - C/S架构
+
+
+## mcp三者关系
+- mcp host
+ cursor/ vite Agent host
+ AI应用本身，分则调度，
+- MCP Client
+ 嵌入在Host中的协议实现，负责通信，SDK内部实现，实现mcp规范的tools
+- MCP Server
+ mcp tool 运行的服务器
+ 自己提供工具/资源服务器  my-mcp-server.mjs

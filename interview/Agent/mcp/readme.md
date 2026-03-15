@@ -53,3 +53,21 @@ Model Context Protocol Anthorpic  模型上下文协议
 - MCP Server
  mcp tool 运行的服务器
  自己提供工具/资源服务器  my-mcp-server.mjs
+
+- 工作流程
+    - mcp hosts 配置文件
+    - initalize 时会发送请求 获取mcp server 提供的列表和详情
+
+    - host 检索mcp配置文件，
+    - 若是远程的mcp服务则发送http请求，若是本地则进行进程通信
+    -
+
+## MCP 开发流程
+- 1、使用new McpServer创建mcp server 实例
+- 2. 使用server.register Tool/Resource/Prompt 名字 描述 URL
+- 3. 通信方式 StdioserverTransprot 本地     HttpServerTransprot远程
+- 4. server.connect(transport)
+
+## mcp直接入住Agent程序
+- 如何吧mcp tools集成到程序里面
+    mcp是可以插拔的，只要遵守协议

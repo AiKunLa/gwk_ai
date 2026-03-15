@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形</title>
+    <style>
+        .first {
+            width: 0;
+            height: 0;
+            border-style: solid;
+
+            /* 上边 */
+            border-top-width: 100px;
+            border-top-color: #e74c3c;
+
+            /* 右边 */
+            border-right-width: 100px;
+            border-right-color: #3498db;
+
+            /* 下边 */
+            border-bottom-width: 100px;
+            border-bottom-color: #2ecc71;
+
+            /* 左边 */
+            border-left-width: 100px;
+            border-left-color: #f1c40f;
+        }
+
+        .sector {
+            width: 0;
+            height: 0;
+            /* 只保留一个边框作为扇形的“半径”边界，其他透明 */
+            border-top: 100px solid #e74c3c;
+            /* 这一边将成为扇形的一条半径 */
+            border-left: 100px solid transparent;
+            /* 这一边成为另一条半径的占位 */
+            border-right: 0;
+            border-bottom: 0;
+
+            /* 🔑 核心魔法：设置圆角 */
+            /* 值必须大于等于边框宽度，才能把直边拉成圆弧 */
+            border-radius: 100px;
+        }
+
+        .sing {
+            width: 0;
+            height: 0;
+            /* 关键：左右边框透明，形成三角形的斜边 */
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            /* 关键：底边框有颜色，形成三角形的底和高 */
+            border-bottom: 100px solid #3498db;
+            /* 顶边不需要，设为 0 */
+            border-top: 0;
+        }
+
+        .sector2 {
+            width: 0;
+            height: 0;
+            /* 只保留一个边框作为扇形的“半径”边界，其他透明 */
+            border-top: 100px solid #e74c3c;
+            /* 这一边将成为扇形的一条半径 */
+            border-left: 100px solid transparent;
+            /* 这一边成为另一条半径的占位 */
+            /* border-right: 50px solid transparent; */
+            border-bottom: 0;
+
+            /* 🔑 核心魔法：设置圆角 */
+            /* 值必须大于等于边框宽度，才能把直边拉成圆弧 */
+            border-radius: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="first"></div>
+    <div class="sing"></div>
+    <div class="sector"></div>
+    <div class="sector2"></div>
+</body>
+
+</html>

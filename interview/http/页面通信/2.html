@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面 B - postMessage 接收方</title>
+    <style>
+        body { font-family: Arial; padding: 15px; background: #f9f9f9; }
+        .container { background: white; padding: 15px; border-radius: 8px; }
+        h2 { color: #333; margin-top: 0; }
+        .received { background: #e8f5e9; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .reply-btn { background: #2196F3; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 10px; }
+        input { padding: 5px; width: 60%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>页面 B - 接收消息</h2>
+        <p>收到消息后，可以回复</p>
+
+        <div id="messages"></div>
+
+        <div style="margin-top: 20px;">
+            <input type="text" id="replyInput" placeholder="回复消息...">
+            <button class="reply-btn" onclick="replyToParent()">回复父页面</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById('messages')
+
+        // 监听来自父页面的消息
+        window.addEventListener('message', function(event) {
+            const data = event.data
+            const origin = event.origin
+
+            // 显示收到的消息
+            const div = document.createElement('div')
+            div.className = 'received'
+
+            if (typeof data === 'string') {
+                div.innerHTML = `<strong>收到消息：</strong>${data}<br><small>来源: ${origin || '同源'}</small>`
+            } else {
+                div.innerHTML = `<strong>收到对象：</strong><pre>${JSON.stringify(data, null, 2)}</pre><small>来源: ${origin || '同源'}</small>`
+            }
+
+            messagesDiv.appendChild(div)
+
+            // 保存父页面引用，用于回复
+            window.parentWindow = event.source
+        })
+
+        // 回复父页面
+        function replyToParent() {
+            const input = document.getElementById('replyInput')
+            const message = input.value
+
+            if (!message) {
+                alert('请输入回复')
+                return
+            }
+
+            // 回复给父页面
+            if (window.parentWindow) {
+                window.parentWindow.postMessage({
+                    type: 'reply',
+                    message: message,
+                    timestamp: Date.now()
+                }, '*')
+            } else {
+                // 同源情况下，也可以用 top
+                window.top.postMessage({
+                    type: 'reply',
+                    message: message,
+                    timestamp: Date.now()
+                }, '*')
+            }
+
+            input.value = ''
+
+            // 显示回复的消息
+            const div = document.createElement('div')
+            div.className = 'received'
+            div.style.background = '#e3f2fd'
+            div.innerHTML = `<strong>已回复：</strong>${message}`
+            messagesDiv.appendChild(div)
+        }
+    </script>
+</body>
+</html>

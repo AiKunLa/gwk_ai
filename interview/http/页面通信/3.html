@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面 C</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>页面 C</h1>
+        <p>这是一个独立的页面，可以通过 postMessage 与其他页面通信</p>
+        <div class="send-box">
+            <input type="text" id="messageInput" placeholder="输入要发送的消息...">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+
+        <h3>通信日志：</h3>
+        <div class="log" id="log"></div>
+
+        <h3>子页面</h3>
+        <iframe src="2.html" id="childFrame"></iframe>
+    </div>
+    <script>
+
+        const childFrame = document.getElementById('childFrame')
+        const log = document.getElementById('log')
+        childFrame.onload = function () {
+            logMessage('system', '子页面已加载')
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput')
+            const message = input.ariaValueMax
+            if (!message) {
+                alert("input message")
+                return
+            }
+
+            const childWindow = childFrame.contentWindwo
+            childWindow.postMessage(message, '*')
+
+            logMessage('sent', message)
+            input.value = ''
+        }
+
+        // 辅助函数：添加日志
+        function logMessage(type, text) {
+            const p = document.createElement('p')
+            p.className = type
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${text}`
+            log.appendChild(p)
+            log.scrollTop = log.scrollHeight
+        }
+
+        window.addEventListener('message')
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{
+    "mcpServer": {
+        "my-mcp-server": {
+            "command": "node",
+            "args": [
+                "mcpServer.js"
+            ]
+        },
+        "amap-maps-streamableHTTP": {
+            "url": ""
+        }
+    }
+}

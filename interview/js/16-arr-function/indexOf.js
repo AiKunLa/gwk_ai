@@ -15,13 +15,10 @@ Array.prototype.myIndexOf = function (searchElement, fromIndex = 0) {
     if (fromIndex < 0) fromIndex = 0
     if (fromIndex >= length) return -1
 
-
     for (let i = 0; i < length; i++) {
         if (i in O && O[i] === searchElement) {
             return i
         }
     }
-
     return -1
-
 }

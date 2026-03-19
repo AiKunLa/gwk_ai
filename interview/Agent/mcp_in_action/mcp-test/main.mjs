@@ -13,10 +13,15 @@ const mcpClient = new MultiServerMCPClient({
         "amap-maps-streamableHTTP": {
             url: `${process.env.MCP_SERVER_URL_AMAP_MAPS_STREAMABLEHTTP}${process.env.MCP_SERVER_API_KEY_AMAP_MAPS_STREAMABLEHTTP}`
         },
-        // // 文件操作工具，提供列目录、读文件、写文件等功能
-        // 'filesystem': {
-
-        // }
+        // 官方提供的mcp
+        "filesystem": {
+            'command': "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/Users/zhangchenxi/Desktop/mcp-test/filesystem",
+            ]
+        }
     }
 })
 

@@ -21,6 +21,13 @@ const mcpClient = new MultiServerMCPClient({
                 "@modelcontextprotocol/server-filesystem",
                 "/Users/zhangchenxi/Desktop/mcp-test/filesystem",
             ]
+        },
+        "chrome-devtools": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "chrome-devtools-mcp@latest"
+            ]
         }
     }
 })

@@ -8,3 +8,4 @@ function LoggingIdentity<T extends Lengthwise>(arg: T): T {
     console.log(arg.length); // 现在我们可以安全地访问 length 属性了
     return arg;
 }
+

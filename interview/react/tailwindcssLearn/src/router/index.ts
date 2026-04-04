@@ -4,7 +4,8 @@ import { MainLayout } from "@/layout/MainLayout";
 export const router = createBrowserRouter([
     {
         path: '/',
-        Component: MainLayout
+        Component: MainLayout,
+        
     }
 ], {
     basename: '/'

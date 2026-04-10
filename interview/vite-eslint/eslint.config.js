@@ -18,20 +18,6 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
-      parserOptions: {                // ← 放在这里
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',// 
-      },
     },
-    rules: {
-      // 👇 自定义规则覆盖
-      'react/react-in-jsx-scope': 'off',                 // React 17+ 不需要导入 React
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'react-hooks/exhaustive-deps': 'warn',
-    },
-    plugins: [
-
-    ]
-
   },
 ])

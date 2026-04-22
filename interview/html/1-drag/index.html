@@ -1,0 +1,57 @@
+<div id="draggable" draggable="true" style="width:100px; height:50px; background:lightblue;">
+    拖我
+</div>
+
+<div id="dropzone" style="width:200px; height:100px; background:#eee; margin-top:20px;">
+    放这里
+</div>
+
+<script>
+    const draggable = document.getElementById('draggable');
+    const dropzone = document.getElementById('dropzone');
+
+    // 1. 开始拖拽：设置传输数据
+    draggable.addEventListener('dragstart', (e) => {
+        console.log('拖拽开始');
+        // 存储元素ID，方便后续识别
+        e.dataTransfer.setData('text/plain', e.target.id);
+        // 可选：设置拖拽图标
+        e.dataTransfer.effectAllowed = 'move';
+    });
+
+    // 2. 拖拽结束（可选）
+    draggable.addEventListener('dragend', () => {
+        console.log('拖拽结束');
+    });
+
+    // 3. 进入目标区域
+    dropzone.addEventListener('dragenter', (e) => {
+        e.preventDefault(); // 必须！否则样式可能不生效
+        dropzone.style.backgroundColor = '#ccc';
+    });
+
+    // 4. 在目标区域上移动（关键！）
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault(); // ⚠️ 必须阻止默认行为，否则 drop 不触发！
+    });
+
+    // 5. 离开目标区域
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.style.backgroundColor = '#eee';
+    });
+
+    // 6. 放下元素
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.style.backgroundColor = '#eee';
+
+        // 获取拖拽数据
+        const id = e.dataTransfer.getData('text/plain');
+        const draggedElement = document.getElementById(id);
+
+        // 将元素移动到目标容器（或复制）
+        dropzone.appendChild(draggedElement);
+
+        console.log('已放置:', id);
+    });
+</script>

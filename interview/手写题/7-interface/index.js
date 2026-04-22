@@ -7,3 +7,4 @@ function isInterfaceOf(obj, Construct) {
     }
     return false
 }
+

@@ -1,42 +1,120 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.demo-card {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.demo-card h3 {
+  color: #00d9ff;
+  margin-bottom: 8px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
+.demo-card p {
   color: #888;
-} */
+  margin-bottom: 16px;
+}
+
+.demo-box {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sibling-component {
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.sibling-component h4 {
+  color: #e94560;
+  margin-bottom: 8px;
+}
+
+.sibling-component p {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.message-box {
+  background: #0f0f23;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 12px;
+  color: #0f0;
+  min-height: 40px;
+}
+
+.sibling-communication {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sibling-communication h2 {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.summary {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.summary h3 {
+  color: #00d9ff;
+  margin-bottom: 16px;
+}
+
+.summary table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #ccc;
+}
+
+.summary th,
+.summary td {
+  border: 1px solid #333;
+  padding: 12px;
+  text-align: left;
+}
+
+.summary th {
+  background: #16213e;
+  color: #e94560;
+}
+
+button {
+  background: #e94560;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #ff6b6b;
+}
+
+input {
+  background: #0f0f23;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #fff;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00d9ff;
+}

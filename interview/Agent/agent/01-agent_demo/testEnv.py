@@ -13,3 +13,4 @@ print(f"API_KEY: {API_KEY}")
 print(f"BASE_URL: {BASE_URL}")
 print(f"MODEL_ID: {MODEL_ID}")
 print(f"TAVILY_API_KEY: {TAVILY_API_KEY}")
+

@@ -18,3 +18,30 @@ function lengthOfLIS(nums: number[]): number {
     }
     return maxLen
 };
+
+/**
+ * 
+ * @param nums 
+ * @returns 
+ */
+function lengthOfLIS2(nums: number[]): number {
+    const tails: number[] = [];
+
+    for (const num of nums) {
+        let l = 0, r = tails.length;
+
+        // 二分查找：找第一个 >= num 的位置
+        while (l < r) {
+            const mid = (l + r) >> 1;
+            if (tails[mid] >= num) r = mid;
+            else l = mid + 1;
+        }
+
+        // 找到位置，替换
+        if (l === tails.length) tails.push(num);
+        else tails[l] = num;
+    }
+
+    // tails 长度就是最长递增子序列长度
+    return tails.length;
+};

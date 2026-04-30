@@ -1,3 +1,9 @@
+# Resolver Prompt - 指导 LLM 整合执行结果生成最终答案
+#
+# 设计要点：
+# 1. 简洁指令，强调"整合"而非"重新推理"
+# 2. 原始步骤结果已经包含执行输出，无需 LLM 再次搜索
+# 3. 要求语言流畅、结构清晰
 RESOLVER_PROMPT_TEMPLATE = """你是一个答案整合助手。
 
 用户问题：{question}
@@ -13,5 +19,7 @@ RESOLVER_PROMPT_TEMPLATE = """你是一个答案整合助手。
 
 最终答案："""
 
+
 def render_resolver_prompt(question: str, steps_text: str) -> str:
+    """渲染 Resolver Prompt"""
     return RESOLVER_PROMPT_TEMPLATE.format(question=question, steps_text=steps_text)

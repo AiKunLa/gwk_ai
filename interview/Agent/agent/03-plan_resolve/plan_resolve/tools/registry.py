@@ -1,4 +1,14 @@
+"""
+工具注册表 - 统一管理所有可用工具
+
+设计模式：注册表模式（Registry Pattern）
+- 所有工具在此注册，便于管理和发现
+- 支持动态添加新工具
+- 提供工具描述用于 Prompt 构建
+"""
+
 from .base import ToolSpec
+
 
 class ToolRegistry:
     def __init__(self):

@@ -5,23 +5,6 @@ import re
 from ..schemas.plan import Plan, PlanStep
 
 
-"""
-LLM 输出解析器 - 将非结构化文本转为结构化 Plan
-
-核心挑战：LLM 输出不可控，可能包含：
-1. <thinking> 标签内的思考过程
-2. Markdown 代码块包裹的 JSON
-3. 纯 JSON 数组
-4. 自然语言夹杂工具调用语法
-
-解析策略（多层容错）：
-1. 优先提取代码块内容
-2. 剥离 <thinking> 标签
-3. 从混合文本中找第一个可解析的 JSON 数组
-4. 最后退化为按行兜底解析
-"""
-
-
 class PlanParser:
     def parse_steps(self, text: str, question: str) -> Plan:
         try:
@@ -48,12 +31,6 @@ class PlanParser:
         return content
 
     def _extract_first_array(self, text: str) -> str | None:
-        """
-        从文本中查找第一个可解析的 JSON 数组
-
-        使用状态机解析：跟踪括号深度、字符串上下文、转义字符
-        找到 [ 时开始计数，深度归零时检查是否可解析
-        """
         for start in range(len(text)):
             if text[start] != "[":
                 continue
@@ -67,7 +44,6 @@ class PlanParser:
                 char = text[end]
 
                 if in_string:
-                    # 字符串内：处理转义
                     if escape:
                         escape = False
                     elif char == "\\":
@@ -76,13 +52,11 @@ class PlanParser:
                         in_string = False
                     continue
 
-                # 检测字符串开始
                 if char in {'"', "'"}:
                     in_string = True
                     quote_char = char
                     continue
 
-                # 跟踪括号深度
                 if char == "[":
                     depth += 1
                     continue
@@ -98,7 +72,6 @@ class PlanParser:
         return None
 
     def _can_parse_as_list(self, text: str) -> bool:
-        """验证文本是否能被解析为列表（JSON 或 Python literal）"""
         try:
             data = json.loads(text)
         except json.JSONDecodeError:
@@ -135,11 +108,12 @@ class PlanParser:
 
             content = content.strip("\"'")
             tool_name, tool_input = self._extract_legacy_tool_call(content)
+            executor = "tool" if tool_name and tool_input else "llm"
             steps.append(
                 PlanStep(
                     step_id=index,
                     content=content,
-                    use_tool=bool(tool_name and tool_input),
+                    executor=executor,
                     tool_name=tool_name,
                     tool_input=tool_input,
                 )
@@ -154,11 +128,11 @@ class PlanParser:
 
             tool_name = item.get("tool_name")
             tool_input = item.get("tool_input")
-            use_tool = bool(item.get("use_tool")) or bool(tool_name and tool_input)
+            executor = self._normalize_executor(item, tool_name, tool_input)
             return PlanStep(
                 step_id=int(item.get("step_id", default_step_id)),
                 content=content,
-                use_tool=use_tool,
+                executor=executor,
                 tool_name=str(tool_name).strip() if tool_name else None,
                 tool_input=str(tool_input).strip() if tool_input else None,
             )
@@ -169,15 +143,29 @@ class PlanParser:
                 return None
 
             tool_name, tool_input = self._extract_legacy_tool_call(content)
+            executor = "tool" if tool_name and tool_input else "llm"
             return PlanStep(
                 step_id=default_step_id,
                 content=content,
-                use_tool=bool(tool_name and tool_input),
+                executor=executor,
                 tool_name=tool_name,
                 tool_input=tool_input,
             )
 
         return None
+
+    def _normalize_executor(
+        self,
+        item: dict,
+        tool_name: object,
+        tool_input: object,
+    ) -> str:
+        executor = str(item.get("executor", "")).strip().lower()
+        if executor in {"tool", "llm", "final"}:
+            return executor
+
+        use_tool = bool(item.get("use_tool")) or bool(tool_name and tool_input)
+        return "tool" if use_tool else "llm"
 
     def _extract_legacy_tool_call(self, content: str) -> tuple[str | None, str | None]:
         match = re.search(r"(\w+)\[(.+?)\]", content)

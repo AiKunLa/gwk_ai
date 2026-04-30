@@ -1,35 +1,26 @@
-"""
-Plan-and-Resolve Agent 核心编排器
-
-该模块实现了 ReAct (Reasoning + Acting) 模式的核心流程：
-1. Planner 生成计划 → 2. Parser 解析计划 → 3. Executor 执行工具 → 4. Resolver 整合答案
-
-设计要点：
-- 解耦：规划、解析、执行、整合各自独立
-- 结构化：工具调用使用显式字段而非自然语言正则匹配
-- 容错：Parser 对 LLM 输出做多层容错处理
-"""
-
+import re
 from typing import Callable
 
-from ..schemas.plan import StepResult
+from ..schemas.plan import Plan, StepResult
 from ..tools.executor import ToolExecutor
 from .parser import PlanParser
 from .planner import Planner
 from .resolver import Resolver
+from .step_reasoner import StepReasoner
 
 
 class PlanResolveAgent:
-    """主 Agent 编排器，协调 Planning → Parsing → Execution → Resolution 全流程"""
     def __init__(
         self,
         planner: Planner,
         resolver: Resolver,
         tool_executor: ToolExecutor,
+        step_reasoner: StepReasoner,
     ):
         self.planner = planner
         self.resolver = resolver
         self.tool_executor = tool_executor
+        self.step_reasoner = step_reasoner
 
     def run(
         self,
@@ -37,19 +28,12 @@ class PlanResolveAgent:
         stream: bool = False,
         on_token: Callable[[str], None] | None = None,
     ) -> str:
-        """
-        执行 Agent 主流程
+        print("--- 开始处理问题 ---")
+        print(f"问题: {question}")
+        print("--- 正在生成计划 ---")
 
-        流程：
-        1. Planner.make_plan → 生成结构化计划文本
-        2. PlanParser.parse_steps → 解析为 Plan 对象
-        3. 遍历步骤，执行需要工具调用的步骤
-        4. Resolver.resolve → 根据执行结果生成最终答案
-        """
-        # Step 1: 获取可用工具描述，让 Planner 知道可以调用哪些工具
         tools_desc = self.tool_executor.registry.describe_tools()
-
-        # Step 2: Planner 生成计划（可能包含 <thinking> 标签）
+        print(f"🧠 正在调用 {self.planner.llm_client.config.model} 模型...")
         plan_text = self.planner.make_plan(
             question=question,
             tools_desc=tools_desc,
@@ -57,50 +41,99 @@ class PlanResolveAgent:
             on_token=on_token,
         )
 
-        # Step 3: Parser 解析 LLM 输出，支持多种容错策略
         plan = PlanParser().parse_steps(plan_text, question)
         if not plan.steps:
             return "Unable to generate a valid execution plan."
 
-        # Step 4: 执行每个计划步骤
+        rendered_plan = self._render_plan_preview(plan)
+        print("✅ 大语言模型响应成功:")
+        print("✅ 计划已生成:")
+        print("```python")
+        print(rendered_plan)
+        print("```")
+        print()
+        print("--- 正在执行计划 ---")
+        print()
+
         step_results: list[StepResult] = []
-        for step in plan.steps:
-            # 如果步骤需要工具调用，则执行它
-            if step.use_tool and step.tool_name and step.tool_input:
+        total_steps = len(plan.steps)
+        for index, step in enumerate(plan.steps, start=1):
+            print(f"-> 正在执行步骤 {index}/{total_steps}: {step.content}")
+
+            # 若有工具则执行工具
+            if step.executor == "tool" and step.tool_name and step.tool_input:
+                print(f"🔧 正在调用工具 {step.tool_name}...")
                 result = self.tool_executor.execute(step.tool_name, step.tool_input)
+                clean_result = self._clean_inline_text(result.output)
+                print("✅ 工具执行成功:")
+                print(clean_result)
                 step_results.append(
                     StepResult(
                         step_id=step.step_id,
                         content=step.content,
-                        result=result.output,
+                        result=clean_result,
                         success=result.success,
+                        executor=step.executor,
                     )
                 )
+                print(f"✅ 步骤 {index} 已完成，结果: {clean_result}")
+                print()
                 continue
 
-            # 不需要工具调用的步骤（如总结）直接记录
+
+            # 若没有工具则执行 模型调用
+            # 获取上一步的结果并格式
+            prior_results = self._format_results(step_results) if step_results else "(none)"
+            print(f"🧠 正在调用 {self.step_reasoner.llm_client.config.model} 模型...")
+            result_text = self.step_reasoner.run_step(
+                question=question,
+                step_content=step.content,
+                previous_results=prior_results,
+                stream=stream,
+                on_token=on_token,
+            )
+            clean_result = self._clean_inline_text(result_text)
+            print("✅ 大语言模型响应成功:")
+            print(clean_result)
             step_results.append(
                 StepResult(
                     step_id=step.step_id,
                     content=step.content,
-                    result="(no execution needed)",
+                    result=clean_result,
                     success=True,
+                    executor=step.executor,
                 )
             )
+            print(f"✅ 步骤 {index} 已完成")
+            print()
 
-        # Step 5: 将执行结果格式化为文本，交给 Resolver 生成最终答案
         steps_text = self._format_results(step_results)
-        return self.resolver.resolve(
+        final_answer = self.resolver.resolve(
             question=question,
             steps_text=steps_text,
-            stream=stream,
-            on_token=on_token,
+            stream=False,
+            on_token=None,
         )
+        final_answer = self._clean_inline_text(final_answer)
+
+        print("--- 任务完成 ---")
+        print(f"最终答案: {final_answer}")
+        return final_answer
+
+    def _render_plan_preview(self, plan: Plan) -> str:
+        return repr([step.content for step in plan.steps])
+
+    def _clean_inline_text(self, text: str) -> str:
+        text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<think>.*$", "", text, flags=re.DOTALL | re.IGNORECASE)
+        return " ".join(text.strip().split())
 
     def _format_results(self, results: list[StepResult]) -> str:
         lines: list[str] = []
         for result in results:
             status = "OK" if result.success else "ERROR"
-            lines.append(f"[Step {result.step_id}] {status} {result.content}")
+            lines.append(
+                f"[Step {result.step_id}] {status} [{result.executor}] {result.content}"
+            )
             lines.append(f"Result: {result.result}")
         return "\n".join(lines)

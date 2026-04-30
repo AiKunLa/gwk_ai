@@ -23,3 +23,6 @@ class PromptRenderer:
         if template_name == "resolver":
             return RESOLVER_PROMPT_TEMPLATE.format(question=question, **kwargs)
         raise ValueError(f"Unknown template: {template_name}")
+    #
+    # @staticmethod
+    # def render_executor(question:str,):

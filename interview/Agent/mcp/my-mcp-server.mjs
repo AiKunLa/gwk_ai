@@ -60,7 +60,7 @@ server.registerTool('query-user', {
 
 // 注册提示模板 Prompts
 // 让 AI 使用预定义的提示模板，标准化 AI 行为
-server.registerPrompt('用户报告', 'prompt://user-report', {
+server.registerPrompt('用户报告', 'prompts://user-report', {
     description: "生成用户详细信息报告的模板",
     arguments: [
         { name: 'userId', description: "用户ID，例如：001，002，003", required: true }

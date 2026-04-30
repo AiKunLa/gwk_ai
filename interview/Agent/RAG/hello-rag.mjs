@@ -192,8 +192,8 @@ ${context}
 
     console.log("\n【AI 回答】");
 
-    // 调用大模型，传入构造好的 prompt
-    // 模型只会根据 prompt 中的 ${context} 来回答，不会胡乱编造库里没有的内容
+    // 调用大模型，传入构造好的 prompts
+    // 模型只会根据 prompts 中的 ${context} 来回答，不会胡乱编造库里没有的内容
     const response = await model.invoke(prompt);
 
     // 打印最终结果

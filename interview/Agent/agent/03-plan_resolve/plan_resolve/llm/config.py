@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 @dataclass
@@ -14,8 +13,8 @@ class LLMConfig:
     @classmethod
     def from_env(cls) -> "LLMConfig":
         return cls(
-            model=os.getenv("LLM_MODEL", "gpt-4"),
-            api_key=os.getenv("OPENAI_API_KEY", ""),
-            base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"),
-            timeout=int(os.getenv("LLM_TIMEOUT", "60")),
+            model=os.getenv("MODEL_ID", "gpt-4"),
+            api_key=os.getenv("API_KEY", ""),
+            base_url=os.getenv("BASE_URL", "https://api.openai.com/v1"),
+            timeout=int(os.getenv("TIMEOUT", "60")),
         )

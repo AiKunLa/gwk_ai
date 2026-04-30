@@ -1,7 +1,7 @@
 import os
 from serpapi import SerpApiClient
 from dotenv import load_dotenv
-
+from ..base import ToolSpec
 
 load_dotenv()
 
@@ -40,6 +40,10 @@ def search_impl(query: str) -> str:
 # 定义工具规范
 search_tool = ToolSpec(
     name="Search",
-    description="搜索引擎，可获取实时信息",
+    description=(
+        "网页搜索引擎，当需要获取实时信息、最新新闻、产品价格、"
+        "事件进展或在知识库中找不到的事实性信息时使用。"
+        "输入一个搜索查询字符串，返回搜索结果摘要。"
+        ),
     func=search_impl,
 )

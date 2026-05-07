@@ -13,4 +13,4 @@ class Executor:
         for i,step in enumerate(plan):
             print(f"\n-> 正在执行步骤 {i+1}/{len(plan)}: {step}")
 
-            prompt =
+            

@@ -4,7 +4,7 @@ class Memory:
     def __init__(self):
         self.records: List[Dict[str,Any]] = []
 
-    def add(self,record_type:str,content:str):
+    def add_record(self,record_type:str,content:str):
         record = {
             'type': record_type,
             'content': content

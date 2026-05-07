@@ -1,11 +1,10 @@
-# 假设 llm_client.py 和 memory.py 已定义
-# from llm_client import HelloAgentsLLM
-# from memory import Memory
-from ..memory import Memory
-from ..prompts import INITIAL_PROMPT_TEMPLATE,REFINE_PROMPT_TEMPLATE,REFLECT_PROMPT_TEMPLATE
+from llm import HelloAgentsLLM
+from memory import Memory
+from prompts import INITIAL_PROMPT_TEMPLATE, REFINE_PROMPT_TEMPLATE, REFLECT_PROMPT_TEMPLATE
+
 
 class ReflectionAgent:
-    def __init__(self, llm_client, max_iterations=3):
+    def __init__(self, llm_client: HelloAgentsLLM, max_iterations=3):
         self.llm_client = llm_client
         self.memory = Memory()
         self.max_iterations = max_iterations

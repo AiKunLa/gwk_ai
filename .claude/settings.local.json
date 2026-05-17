@@ -5,7 +5,9 @@
       "Bash(node main.mjs)",
       "Bash(wmic process:*)",
       "Bash(tasklist /V /FI 'IMAGENAME eq node.exe')",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(xargs grep -l -i \"breaking\\\\|deprecat\\\\|upgrade\")",
+      "Bash(npx tsc *)"
     ]
   }
 }

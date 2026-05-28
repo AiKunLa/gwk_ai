@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>原生富文本编辑器 Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .toolbar {
+            margin-bottom: 10px;
+        }
+
+        .toolbar button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #editor {
+            width: 600px;
+            min-height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        #output {
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>原生富文本编辑器（Demo）</h2>
+
+    <div class="toolbar">
+        <button onclick="exec('bold')">加粗</button>
+        <button onclick="exec('italic')">斜体</button>
+        <button onclick="exec('underline')">下划线</button>
+        <button onclick="exec('formatBlock', '<h2>')">标题</button>
+        <button onclick="exec('formatBlock', '<p>')">段落</button>
+        <button onclick="exec('insertUnorderedList')">无序列表</button>
+        <button onclick="exec('insertOrderedList')">有序列表</button>
+        <button onclick="insertLink()">插入链接</button>
+        <button onclick="getHTML()">获取 HTML</button>
+    </div>
+
+    <div id="editor" contenteditable="true">
+        在这里输入内容...
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        function exec(command, value = null) {
+            document.execCommand(command, false, value);
+            document.getElementById('editor').focus();
+        }
+
+        function insertLink() {
+            const url = prompt('请输入链接地址：');
+            if (url) {
+                exec('createLink', url);
+            }
+        }
+
+        function getHTML() {
+            const html = document.getElementById('editor').innerHTML;
+            document.getElementById('output').innerText = html;
+        }
+
+        // 可选：初始化时清空提示文字
+        document.getElementById('editor').addEventListener('focus', function () {
+            if (this.innerText === '在这里输入内容...') {
+                this.innerHTML = '';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

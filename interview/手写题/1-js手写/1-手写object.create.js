@@ -1,21 +1,21 @@
 function myCreateObject(obj) {
-    function F() {}
+    function F() { }
     F.prototype = obj
     return new F()
 }
 
-function myCreate(obj){
-    if(typeof obj !== 'object' || obj === null) {
-        throw new TypeError('Object prototype may only be an Object or null')   
+function myCreate(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        throw new TypeError('Object prototype may only be an Object or null')
     }
-    function F(){}
+    function F() { }
     F.prototype = obj
     return new F()
 }
 
 const parent = {
-    name:"parent",
-    sayHello(){
+    name: "parent",
+    sayHello() {
         console.log("parent say hello")
     }
 }
@@ -42,8 +42,17 @@ console.log(child.prototype === parent) // false
 console.log(Object.getPrototypeOf(child))
 
 
-function myCreate(obj){
-    function fn(){}
+function myCreate(obj) {
+    function fn() { }
+    fn.prototype = obj
+    return new fn()
+}
+
+function myCreate(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        throw new TypeError('Object prototype may only be an Object or null')
+    }
+    function fn() { }
     fn.prototype = obj
     return new fn()
 }

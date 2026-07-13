@@ -7,6 +7,7 @@
 | 你的目标 | 从这里开始 |
 |---|---|
 | 第一次了解项目 | [项目概览](0-START-HERE/project-overview.md) |
+| 用于技术评审或面试汇报 | [技术方案（汇报版）](0-START-HERE/technical-solution-report.md) |
 | 快速在本机运行 | [本地快速启动](0-START-HERE/quick-start-local.md) |
 | 配置真实阿里云 OSS | [OSS 初始化](1-INSTALLATION/aliyun-oss-setup.md) |
 | 学习创建和发布文章 | [用户指南](3-USER-GUIDE/index.md) |

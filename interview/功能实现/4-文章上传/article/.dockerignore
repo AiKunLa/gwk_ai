@@ -1,0 +1,11 @@
+.git
+.next
+node_modules
+coverage
+playwright-report
+test-results
+data
+.env
+.env.*
+!.env.docker.example
+.pnpm-store

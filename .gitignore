@@ -12,4 +12,8 @@ __pycache__/
 .vscode/
 *.swp
 *.swo
+<<<<<<< HEAD
 .next/
+=======
+.next
+>>>>>>> 34ecd5cdd9a0ffda65348d8493f126f60f1f74b1

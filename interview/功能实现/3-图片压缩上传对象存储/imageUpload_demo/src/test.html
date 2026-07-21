@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片压缩上传 Demo</title>
+
+    <!-- ============================================================
+    页面功能说明：
+    1. 支持点击选择 或 拖拽 上传图片
+    2. 前端 Canvas 压缩（可调节质量 + 最大宽度）
+    3. 压缩后上传至阿里云 OSS 对象存储
+    4. 实时预览 + 压缩前后大小对比
+    ============================================================ -->
+
+    <style>
+        /* --- 页面整体布局：居中显示，限制最大宽度 --- */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        /* --- 拖拽上传区域：虚线边框 + 居中提示文字 --- */
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        /* --- 拖拽悬停时的视觉反馈：蓝色边框 + 浅蓝背景 --- */
+        .upload-area.dragover {
+            border-color: #409EFF;
+            background: #f0f7ff;
+        }
+
+        /* --- 图片预览：最大宽度 100%，初始隐藏 --- */
+        #preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* --- 压缩信息文字样式 --- */
+        .info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* --- 通用按钮样式 --- */
+        .btn {
+            background: #409EFF;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* --- 按钮禁用态：半透明 + 禁止点击光标 --- */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* --- 操作结果提示区域 --- */
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* --- 成功消息样式：绿色背景 --- */
+        .success {
+            background: #f0f9eb;
+            color: #67c23a;
+        }
+
+        /* --- 错误消息样式：红色背景 --- */
+        .error {
+            background: #fef0f0;
+            color: #f56c6c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 页面标题 -->
+    <h2>📤 图片压缩上传</h2>
+
+    <!-- ====== 拖拽/点击上传区域 ====== -->
+    <div class="upload-area" id="dropZone">
+        <p>点击选择图片 或 拖拽图片到此处</p>
+        <!-- 隐藏的原生文件选择框，由按钮触发点击 -->
+        <input type="file" id="fileInput" accept="image/*" style="display:none" />
+        <br /><br />
+        <button class="btn" id="selectBtn">选择图片</button>
+    </div>
+
+    <!-- 图片预览（初始隐藏，选择图片后显示） -->
+    <img id="preview" alt="预览" />
+    <!-- 压缩前后大小对比信息 -->
+    <div class="info" id="sizeInfo"></div>
+
+    <!-- ====== 压缩参数控制区 ====== -->
+    <div style="margin-top:15px">
+        <!-- 压缩质量滑块：0.1~1.0，步长 0.05，默认 0.8 -->
+        <label>压缩质量 (0~1)：<input type="range" id="qualityRange" min="0.1" max="1" step="0.05" value="0.8" /></label>
+        <span id="qualityLabel">0.8</span>
+        &nbsp;&nbsp;
+        <!-- 最大宽度输入：限制压缩后图片的宽度 -->
+        <label>最大宽度：<input type="number" id="maxWidth" value="1920" style="width:80px" />px</label>
+    </div>
+
+    <!-- 上传按钮（初始禁用，压缩完成后才启用） -->
+    <button class="btn" id="uploadBtn" disabled style="margin-top:15px">上传到 OSS</button>
+    <!-- 操作结果提示（成功/失败/加载中） -->
+    <div id="result"></div>
+
+    <!-- 引入阿里云 OSS SDK（CDN 方式加载） -->
+    <script src="https://gosspublic.alicdn.com/aliyun-oss-sdk-6.18.0.min.js"></script>
+
+    <script>
+        // ============================================================
+        // 1. OSS 配置区（⚠️ 请替换为你的真实信息）
+        // ============================================================
+        const OSS_CONFIG = {
+            region: 'oss-cn-hangzhou',              // OSS 地域节点（如 oss-cn-hangzhou）
+            bucket: 'your-bucket-name',             // Bucket 名称
+            accessKeyId: 'your-access-key-id',      // AccessKey ID（生产环境建议使用 STS 临时凭证）
+            accessKeySecret: 'your-access-key-secret', // AccessKey Secret
+            // securityToken: 'your-sts-token',     // 若使用 STS 临时授权，取消注释并填入 token
+        };
+
+        // ============================================================
+        // 2. 核心：前端图片压缩函数（Canvas 方案）
+        // ============================================================
+        /**
+         * 使用 Canvas 对图片进行等比缩放 + 质量压缩
+         *
+         * 压缩流程：
+         *   File → FileReader.readAsDataURL() → Image 对象加载
+         *        → Canvas.drawImage() 等比缩放绘制
+         *        → Canvas.toBlob() 按指定质量和格式导出
+         *        → new File() 包装为可上传的 File 对象
+         *
+         * @param {File} file - 原始图片文件
+         * @param {Object} options - 压缩选项
+         * @param {number} [options.maxWidth=1920] - 最大宽度（等比缩放）
+         * @param {number} [options.maxHeight=1920] - 最大高度（等比缩放）
+         * @param {number} [options.quality=0.8] - 压缩质量 0~1（仅对 JPEG/WebP 有效）
+         * @param {string} [options.mimeType='image/jpeg'] - 输出图片格式
+         * @returns {Promise<Object>} 包含压缩后的 file、blob、尺寸、大小对比等信息
+         */
+        function compressImage(file, options = {}) {
+            return new Promise((resolve, reject) => {
+                // 解构参数并设置默认值
+                const {
+                    maxWidth = 1920,
+                    maxHeight = 1920,
+                    quality = 0.8,
+                    mimeType = 'image/jpeg'
+                } = options;
+
+                // 步骤1：用 FileReader 将文件读取为 Data URL（Base64 字符串）
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    // 步骤2：创建 Image 对象加载 Data URL
+                    const img = new Image();
+                    img.onload = () => {
+                        // 步骤3：计算缩放后的宽高（保持原图宽高比）
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxWidth || height > maxHeight) {
+                            // 取宽高缩放比中较小的那个，确保图片不超出限制
+                            const ratio = Math.min(maxWidth / width, maxHeight / height);
+                            width = Math.round(width * ratio);
+                            height = Math.round(height * ratio);
+                        }
+
+                        // 步骤4：创建 Canvas 并绘制缩放后的图片
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        // 启用高质量图像平滑（让缩放后的图片更清晰）
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // 步骤5：通过 toBlob 导出为压缩后的二进制数据
+                        canvas.toBlob(
+                            (blob) => {
+                                if (!blob) {
+                                    reject(new Error('压缩失败，无法生成 Blob'));
+                                    return;
+                                }
+                                // 步骤6：将 Blob 包装成 File 对象（OSS SDK 需要 File/Blob 类型）
+                                const compressedFile = new File(
+                                    [blob],
+                                    // 统一输出为 .jpg 后缀
+                                    file.name.replace(/\.[^.]+$/, '.jpg') || 'compressed.jpg', {
+                                    type: mimeType
+                                }
+                                );
+                                // 返回压缩结果，包含前后大小对比
+                                resolve({
+                                    file: compressedFile,
+                                    blob: blob,
+                                    width: width,
+                                    height: height,
+                                    originalSize: file.size,                        // 原图字节数
+                                    compressedSize: blob.size,                      // 压缩后字节数
+                                    savedKB: Math.round((file.size - blob.size) / 1024) // 节省的 KB
+                                });
+                            },
+                            mimeType, // 输出图片格式（如 'image/jpeg', 'image/webp'）
+                            quality   // 压缩质量 0~1（仅影响有损格式）
+                        );
+                    };
+                    img.onerror = () => reject(new Error('图片加载失败'));
+                    img.src = e.target.result; // 将 Data URL 赋值给 Image 触发加载
+                };
+                reader.onerror = () => reject(new Error('文件读取失败'));
+                reader.readAsDataURL(file); // 开始读取文件
+            });
+        }
+
+        // ============================================================
+        // 3. 上传至阿里云 OSS 对象存储
+        // ============================================================
+        /**
+         * 将文件上传到阿里云 OSS
+         *
+         * @param {File} file - 要上传的文件
+         * @param {string} path - OSS 中的存储路径（目录前缀）
+         * @returns {Promise<Object>} { success, url, name } 或 { success, msg }
+         */
+        async function uploadToOSS(file, path) {
+            try {
+                // 初始化 OSS 客户端（每次上传都新建，确保配置最新）
+                const client = new OSS({
+                    region: OSS_CONFIG.region,
+                    bucket: OSS_CONFIG.bucket,
+                    accessKeyId: OSS_CONFIG.accessKeyId,
+                    accessKeySecret: OSS_CONFIG.accessKeySecret,
+                    // secure: true,        // 是否使用 HTTPS 协议
+                    // securityToken: OSS_CONFIG.securityToken, // STS 临时凭证
+                });
+
+                // 生成唯一文件名：时间戳 + 原扩展名，避免同名文件覆盖
+                const timestamp = Date.now();
+                const ext = file.name.split('.').pop() || 'jpg';
+                const fileName = path ? `${path}/${timestamp}.${ext}` : `uploads/${timestamp}.${ext}`;
+
+                // 调用 OSS SDK 上传文件
+                const result = await client.put(fileName, file);
+                return {
+                    success: true,
+                    url: result.url,   // OSS 返回的文件访问 URL
+                    name: fileName,     // OSS 中的存储路径
+                    res: result         // 完整的响应对象
+                };
+            } catch (error) {
+                console.error('OSS 上传失败:', error);
+                return {
+                    success: false,
+                    msg: error.message || '上传失败'
+                };
+            }
+        }
+
+        // ============================================================
+        // 4. UI 交互逻辑
+        // ============================================================
+
+        // 存储当前已压缩的文件，供上传时使用
+        let currentCompressedFile = null;
+        // 存储当前预览的 Object URL，用于切换图片时释放上一张的内存
+        let currentPreviewUrl = null;
+
+        // --- DOM 元素引用 ---
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const selectBtn = document.getElementById('selectBtn');
+        const preview = document.getElementById('preview');
+        const sizeInfo = document.getElementById('sizeInfo');
+        const qualityRange = document.getElementById('qualityRange');
+        const qualityLabel = document.getElementById('qualityLabel');
+        const maxWidthInput = document.getElementById('maxWidth');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const resultDiv = document.getElementById('result');
+
+        // --- 质量滑块：实时更新显示值 ---
+        qualityRange.addEventListener('input', () => {
+            qualityLabel.textContent = parseFloat(qualityRange.value).toFixed(2);
+        });
+
+        /**
+         * 处理用户选择的图片文件：预览 → 压缩 → 显示结果
+         * @param {File} file - 用户选择的图片文件
+         */
+        async function handleFile(file) {
+            // 校验文件类型，只允许图片格式
+            if (!file || !file.type.startsWith('image/')) {
+                showResult('请选择图片文件', 'error');
+                return;
+            }
+
+            // 释放上一张图片的 Object URL（避免内存泄漏）
+            if (currentPreviewUrl) {
+                URL.revokeObjectURL(currentPreviewUrl);
+                currentPreviewUrl = null;
+            }
+
+            // 用 createObjectURL 生成临时 URL 预览原图（零拷贝，比 readAsDataURL 更快更省内存）
+            currentPreviewUrl = URL.createObjectURL(file);
+            preview.src = currentPreviewUrl;
+            preview.style.display = 'block';
+
+            // 读取用户设定的压缩参数
+            const quality = parseFloat(qualityRange.value);
+            const maxWidth = parseInt(maxWidthInput.value) || 1920;
+
+            try {
+                showResult('⏳ 正在压缩...', '');
+                // 执行前端压缩
+                const result = await compressImage(file, {
+                    maxWidth: maxWidth,
+                    maxHeight: maxWidth,   // 高度限制与宽度一致
+                    quality: quality,
+                    mimeType: 'image/jpeg' // 统一输出为 JPEG
+                });
+
+                // 保存压缩后的文件供上传使用
+                currentCompressedFile = result.file;
+
+                // 显示压缩前后的大小和尺寸对比
+                sizeInfo.textContent =
+                    `原图: ${(result.originalSize / 1024).toFixed(1)} KB → 压缩后: ${(result.compressedSize / 1024).toFixed(1)} KB (节省 ${result.savedKB} KB) | 尺寸: ${result.width}×${result.height}`;
+
+                // 压缩完成后启用上传按钮
+                uploadBtn.disabled = false;
+                showResult(`✅ 压缩完成，准备上传 (${(result.compressedSize / 1024).toFixed(1)} KB)`, 'success');
+            } catch (error) {
+                showResult('❌ 压缩失败: ' + error.message, 'error');
+                uploadBtn.disabled = true;
+            }
+        }
+
+        // --- 点击"选择图片"按钮 → 触发隐藏的 file input ---
+        selectBtn.addEventListener('click', () => fileInput.click());
+
+        // --- file input 内容变化时 → 处理选中的文件 ---
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+            // 重置 input 的值，允许重复选择同一个文件
+            fileInput.value = '';
+        });
+
+        // --- 拖拽事件处理 ---
+        // 拖入：阻止默认行为 + 高亮区域
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        // 离开：取消高亮
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        // 放下：阻止默认打开文件 → 处理拖入的图片
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // --- 上传按钮点击 → 将压缩后的文件上传到 OSS ---
+        uploadBtn.addEventListener('click', async () => {
+            if (!currentCompressedFile) {
+                showResult('请先选择并压缩图片', 'error');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            showResult('⏳ 正在上传到 OSS...', '');
+
+            // 上传到 OSS 的 images 目录下
+            const result = await uploadToOSS(currentCompressedFile, 'images');
+
+            if (result.success) {
+                // 上传成功，显示可点击的文件链接
+                showResult(`✅ 上传成功！<br /><a href="${result.url}" target="_blank">${result.url}</a>`, 'success');
+            } else {
+                // 上传失败，重新启用按钮允许重试
+                showResult('❌ 上传失败: ' + result.msg, 'error');
+                uploadBtn.disabled = false;
+            }
+        });
+
+        /**
+         * 在结果区域显示提示消息
+         * @param {string} msg - 消息内容（支持 HTML）
+         * @param {string} type - 消息类型：'success' 绿色 / 'error' 红色 / '' 默认
+         */
+        function showResult(msg, type) {
+            resultDiv.innerHTML = msg;
+            resultDiv.className = type;
+        }
+
+        // 启动提示
+        console.log('🚀 Demo 已启动，请选择图片测试压缩上传功能。');
+        console.log('⚠️ 使用前请替换 OSS_CONFIG 中的配置信息！');
+    </script>
+
+</body>
+
+</html>

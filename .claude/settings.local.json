@@ -7,7 +7,8 @@
       "Bash(tasklist /V /FI 'IMAGENAME eq node.exe')",
       "Bash(git commit -m ' *)",
       "Bash(xargs grep -l -i \"breaking\\\\|deprecat\\\\|upgrade\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(git add *)"
     ]
   }
 }
